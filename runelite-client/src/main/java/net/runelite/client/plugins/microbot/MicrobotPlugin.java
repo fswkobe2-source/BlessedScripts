@@ -149,25 +149,27 @@ public class MicrobotPlugin extends Plugin
 		Microbot.pauseAllScripts.set(false);
 
 		MicrobotPluginListPanel pluginListPanel = pluginListPanelProvider.get();
-		pluginListPanel.addFakePlugin(new MicrobotPluginConfigurationDescriptor(
-			"Blessed Scripts", "Blessed Scripts client settings",
-			new String[]{"client"},
-			microbotConfig, configManager.getConfigDescriptor(microbotConfig)
-		));
+		// Remove fake plugin to clean up UI
+		// pluginListPanel.addFakePlugin(new MicrobotPluginConfigurationDescriptor(
+		//		"Blessed Scripts", "Blessed Scripts client settings",
+		//		new String[]{"client"},
+		//		microbotConfig, configManager.getConfigDescriptor(microbotConfig)
+		// ));
 		pluginListPanel.rebuildPluginList();
 
 		topLevelConfigPanel = topLevelConfigPanelProvider.get();
 
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), "microbot_config_icon_lg.png");
 
-		navButton = NavigationButton.builder()
-			.tooltip("Community Plugins")
-			.icon(icon)
-			.priority(0)
-			.panel(topLevelConfigPanel)
-			.build();
+		// DISABLED - Hide Community Plugins tab
+		// navButton = NavigationButton.builder()
+		//	.tooltip("Community Plugins")
+		//	.icon(icon)
+		//	.priority(0)
+		//	.panel(topLevelConfigPanel)
+		//	.build();
 
-		clientToolbar.addNavigation(navButton);
+		// clientToolbar.addNavigation(navButton); // DISABLED
 
 		new InputSelector(clientToolbar);
 
@@ -186,7 +188,7 @@ public class MicrobotPlugin extends Plugin
 		overlayManager.remove(microbotOverlay);
 		overlayManager.remove(gembagOverlay);
 		overlayManager.remove(pouchOverlay);
-		clientToolbar.removeNavigation(navButton);
+		// clientToolbar.removeNavigation(navButton); // DISABLED - No navigation button added
 		if (gameChatAppender.isStarted()) gameChatAppender.stop();
 		microbotVersionChecker.shutdown();
 	}

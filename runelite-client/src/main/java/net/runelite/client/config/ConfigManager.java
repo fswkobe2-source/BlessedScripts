@@ -45,8 +45,8 @@ import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.*;
 import net.runelite.client.plugins.microbot.Microbot;
-import net.runelite.client.plugins.microbot.inventorysetups.ConfigInventorySetupDataManager;
-import net.runelite.client.plugins.microbot.inventorysetups.InventorySetup;
+// import net.runelite.client.plugins.microbot.inventorysetups.ConfigInventorySetupDataManager; // REMOVED
+// import net.runelite.client.plugins.microbot.inventorysetups.InventorySetup; // REMOVED
 import net.runelite.client.plugins.microbot.util.security.LoginManager;
 import net.runelite.client.util.ColorUtil;
 import net.runelite.client.util.RunnableExceptionLogger;
@@ -116,8 +116,8 @@ public class ConfigManager
 
 	private final Map<Type, Serializer<?>> serializers = Collections.synchronizedMap(new WeakHashMap<>());
 
-	@Inject
-	ConfigInventorySetupDataManager configInventorySetupDataManager;
+	// @Inject
+	// ConfigInventorySetupDataManager configInventorySetupDataManager; // REMOVED
 
 	@Inject
 	private ConfigManager(
@@ -1263,22 +1263,22 @@ public class ConfigManager
 			if (Objects.equals(current, valueString) || (Strings.isNullOrEmpty(current) && Strings.isNullOrEmpty(valueString)))
 			{
 				if (isInventorySetup) {
-					var setups = configInventorySetupDataManager.loadV3Setups(this);
-					if (!setups.isEmpty()) {
-						setConfiguration(group.value(), item.keyName(), gson.toJson(setups.get(0), InventorySetup.class));
-					}
+					// var setups = configInventorySetupDataManager.loadV3Setups(this); // REMOVED
+					// if (!setups.isEmpty()) {
+					// 	setConfiguration(group.value(), item.keyName(), gson.toJson(setups.get(0), InventorySetup.class));
+					// }
 				}
 				continue; // already set to the default value
 			}
 
 			if (current != null && !current.isBlank()) {
 				if (isInventorySetup) {
-					var setups = configInventorySetupDataManager.loadV3Setups(this);
-					InventorySetup currentObj = gson.fromJson(current, InventorySetup.class);
-					if (!setups.isEmpty() && setups.stream()
-							.noneMatch(x -> x.getName().equalsIgnoreCase(currentObj.getName()))) {
-						setConfiguration(group.value(), item.keyName(), "");
-					}
+					// var setups = configInventorySetupDataManager.loadV3Setups(this); // REMOVED
+					// InventorySetup currentObj = gson.fromJson(current, InventorySetup.class);
+					// if (!setups.isEmpty() && setups.stream()
+					// 		.noneMatch(x -> x.getName().equalsIgnoreCase(currentObj.getName()))) {
+					// 	setConfiguration(group.value(), item.keyName(), "");
+					// }
 				}
 			}
 

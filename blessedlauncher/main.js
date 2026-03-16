@@ -216,8 +216,88 @@ async function createWindow() {
         console.log('HTML loaded successfully');
         log.info('HTML loaded successfully');
         
-        // Initialize updater after window is ready
-        updater = new Updater(mainWindow);
+        // Show Scripts tab
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all nav tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + '-content').classList.add('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
+            
+            // Special handling for Scripts tab
+            if (tabName === 'scripts') {
+                loadScriptsList();
+            }
+        }
+
+        // Load scripts list
+        function loadScriptsList() {
+            const scriptsList = document.getElementById('scripts-list');
+            const loadingElement = document.getElementById('scripts-loading');
+            const noScriptsElement = document.getElementById('no-scripts');
+            
+            // Show loading
+            scriptsList.style.display = 'none';
+            loadingElement.style.display = 'block';
+            noScriptsElement.style.display = 'none';
+            
+            // Simulate script loading (in real implementation, this would call plugin)
+            setTimeout(() => {
+                loadingElement.style.display = 'none';
+                
+                // Simulate loaded scripts
+                const mockScripts = [
+                    { name: 'AutoFighter.java', description: 'Automatically fights NPCs', category: 'Combat' },
+                    { name: 'Woodcutter.java', description: 'Cuts oak trees', category: 'Skilling' },
+                    { name: 'Miner.java', description: 'Mines iron ore', category: 'Skilling' }
+                ];
+                
+                if (mockScripts.length > 0) {
+                    scriptsList.innerHTML = '';
+                    mockScripts.forEach(script => {
+                        const scriptItem = document.createElement('div');
+                        scriptItem.className = 'script-item';
+                        scriptItem.innerHTML = `
+                            <div>
+                                <strong>${script.name}</strong>
+                                <span>${script.description}</span>
+                                <small>[${script.category}]</small>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary" onclick="runScript('${script.name}')">▶ Run</button>
+                                <button class="btn btn-secondary" onclick="deleteScript('${script.name}')">🗑</button>
+                            </div>
+                        `;
+                        scriptsList.appendChild(scriptItem);
+                    });
+                } else {
+                    noScriptsElement.style.display = 'block';
+                    scriptsList.style.display = 'none';
+                }
+            }, 1000);
+        }
+
+        // Script actions
+        function runScript(scriptName) {
+            alert(`Running script: ${scriptName}\n\nScript runner will be implemented in next version!`);
+        }
+
+        function deleteScript(scriptName) {
+            if (confirm(`Delete script '${scriptName}'?`)) {
+                alert(`Script deleted: ${scriptName}\n\nDelete functionality will be implemented in next version!`);
+                loadScriptsList();
+            }
+        }
+        
+        showTab('scripts');
         
         // Check for updates silently
         setTimeout(async () => {

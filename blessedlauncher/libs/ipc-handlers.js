@@ -291,4 +291,54 @@ module.exports = async function (deps) {
             return false;
         }
     });
+
+    // Modal Management Handlers
+    ipcMain.handle('show-loading-modal', async (event, message) => {
+        try {
+            const { BrowserWindow } = require('electron');
+            const mainWindow = BrowserWindow.getAllWindows()[0];
+            if (mainWindow) {
+                mainWindow.webContents.send('show-loading-modal', message);
+            }
+        } catch (error) {
+            log.error(`Error showing loading modal: ${error.message}`);
+        }
+    });
+
+    ipcMain.handle('hide-loading-modal', async () => {
+        try {
+            const { BrowserWindow } = require('electron');
+            const mainWindow = BrowserWindow.getAllWindows()[0];
+            if (mainWindow) {
+                mainWindow.webContents.send('hide-loading-modal');
+            }
+        } catch (error) {
+            log.error(`Error hiding loading modal: ${error.message}`);
+        }
+    });
+
+    // Enhanced browser installation with UI feedback
+    ipcMain.handle('install-browsers-with-feedback', async () => {
+        try {
+            const { installPatchrightBrowsers } = require('./oauth-jagex');
+            log.info('Starting browser installation with UI feedback...');
+            const result = await installPatchrightBrowsers();
+            return { success: true, result };
+        } catch (error) {
+            log.error(`Browser installation failed: ${error.message}`);
+            return { success: false, error: error.message };
+        }
+    });
+
+    // Check if Patchright browsers are installed
+    ipcMain.handle('check-patchright-browsers', async () => {
+        try {
+            const { checkPatchrightBrowsers } = require('./oauth-jagex');
+            const result = await checkPatchrightBrowsers();
+            return result;
+        } catch (error) {
+            log.error(`Error checking Patchright browsers: ${error.message}`);
+            return false;
+        }
+    });
 };

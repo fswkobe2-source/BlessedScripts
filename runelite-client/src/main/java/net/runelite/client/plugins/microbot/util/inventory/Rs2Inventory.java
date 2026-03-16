@@ -10,7 +10,7 @@ import net.runelite.api.widgets.Widget;
 import net.runelite.client.plugins.microbot.Microbot;
 import net.runelite.client.plugins.microbot.globval.enums.InterfaceTab;
 import net.runelite.client.plugins.microbot.pouch.Pouch;
-import net.runelite.client.plugins.microbot.util.antiban.Rs2AntibanSettings;
+// import net.runelite.client.plugins.microbot.util.antiban.Rs2AntibanSettings; // REMOVED
 import net.runelite.client.plugins.microbot.util.bank.Rs2Bank;
 import net.runelite.client.plugins.microbot.util.equipment.Rs2Equipment;
 import net.runelite.client.plugins.microbot.util.gameobject.Rs2GameObject;
@@ -442,7 +442,8 @@ public class Rs2Inventory {
     public static boolean dropAll(Predicate<Rs2ItemModel> predicate) {
         items(predicate).forEachOrdered(item -> {
             drop(item);
-            if (!Rs2AntibanSettings.naturalMouse) sleep(150, 300);
+            // if (!Rs2AntibanSettings.naturalMouse) sleep(150, 300); // REMOVED
+            sleep(150, 300); // Simplified sleep
         });
         return true;
     }
@@ -495,7 +496,7 @@ public class Rs2Inventory {
         for (Rs2ItemModel item : itemsToDrop) {
             if (item == null) continue;
             invokeMenu(item, "Drop");
-            if (!Rs2AntibanSettings.naturalMouse)
+            // if (!Rs2AntibanSettings.naturalMouse) // REMOVED
                 sleep(150, 300);
         }
         return true;

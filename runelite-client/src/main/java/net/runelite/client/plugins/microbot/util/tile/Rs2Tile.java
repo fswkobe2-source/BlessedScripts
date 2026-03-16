@@ -7,8 +7,8 @@ import net.runelite.api.coords.LocalPoint;
 import net.runelite.api.coords.WorldPoint;
 import net.runelite.client.plugins.devtools.MovementFlag;
 import net.runelite.client.plugins.microbot.Microbot;
-import net.runelite.client.plugins.microbot.shortestpath.pathfinder.CollisionMap;
-import net.runelite.client.plugins.microbot.util.antiban.Rs2AntibanSettings;
+// import net.runelite.client.plugins.microbot.shortestpath.pathfinder.CollisionMap; // REMOVED
+// import net.runelite.client.plugins.microbot.util.antiban.Rs2AntibanSettings; // REMOVED
 import net.runelite.client.plugins.microbot.util.coords.Rs2LocalPoint;
 import net.runelite.client.plugins.microbot.util.coords.Rs2WorldArea;
 import net.runelite.client.plugins.microbot.util.coords.Rs2WorldPoint;
@@ -393,7 +393,7 @@ public abstract class Rs2Tile implements Tile {
         if (playerLoc == null) return false;
 
         if (targetPoint.getPlane() != playerLoc.getPlane()) return false;
-        if (CollisionMap.ignoreCollision.contains(targetPoint)) return true;
+        // if (CollisionMap.ignoreCollision.contains(targetPoint)) return true; // REMOVED
 
         final boolean[][] visited = new boolean[FLAG_DATA_SIZE][FLAG_DATA_SIZE];
         final int[][] flags = getFlags();
@@ -1322,11 +1322,12 @@ public abstract class Rs2Tile implements Tile {
      * @return True if successfully hovered, otherwise false.
      */
     public static boolean hoverOverTile(Tile tile) {
-        if (!Rs2AntibanSettings.naturalMouse) {
-            if (Rs2AntibanSettings.devDebug)
-                Microbot.log("Natural mouse is not enabled, can't hover");
-            return false;
-        }
+        // if (!Rs2AntibanSettings.naturalMouse) { // REMOVED
+        //     if (Rs2AntibanSettings.devDebug)
+        //         Microbot.log("Natural mouse is not enabled, can't hover");
+        //     return false;
+        // }
+        return false; // Simplified implementation
 
         Point point = Rs2UiHelper.getClickingPoint(Rs2UiHelper.getTileClickbox(tile), true);
 

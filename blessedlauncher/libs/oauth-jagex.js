@@ -9,6 +9,127 @@ const userHome = process.env.HOME || process.env.USERPROFILE;
 const ACCOUNTS_DIR = path.join(userHome, '.blessedscripts');
 const ACCOUNTS_FILE_PATH = path.join(ACCOUNTS_DIR, 'accounts.json');
 
+// Function to check if Patchright browsers are installed
+async function checkPatchrightBrowsers() {
+    try {
+        const { chromium } = require('patchright');
+        // Try to get the executable path to verify browsers are installed
+        const executablePath = chromium.executablePath();
+        log.info('Patchright browsers are installed');
+        return true;
+    } catch (error) {
+        log.error('Patchright browsers not found:', error.message);
+        return false;
+    }
+}
+
+// Function to install Patchright browsers
+async function installPatchrightBrowsers() {
+    return new Promise((resolve, reject) => {
+        log.info('Installing Patchright browsers...');
+        
+        const { spawn } = require('child_process');
+        
+        // Try different methods to install Patchright browsers
+        const installMethods = [
+            // Method 1: Use npx patchright install chromium
+            () => {
+                return new Promise((resolveMethod, rejectMethod) => {
+                    const npxProcess = spawn('npx', ['patchright', 'install', 'chromium'], {
+                        stdio: ['pipe', 'pipe', 'pipe'],
+                        shell: true,
+                        cwd: __dirname
+                    });
+
+                    let stdout = '';
+                    let stderr = '';
+
+                    npxProcess.stdout.on('data', (data) => {
+                        stdout += data.toString();
+                        log.info(`[patchright-install] ${data.toString().trim()}`);
+                    });
+
+                    npxProcess.stderr.on('data', (data) => {
+                        stderr += data.toString();
+                        log.error(`[patchright-install] ${data.toString().trim()}`);
+                    });
+
+                    npxProcess.on('close', (code) => {
+                        if (code === 0) {
+                            log.info('Patchright browsers installed successfully via npx');
+                            resolveMethod(true);
+                        } else {
+                            log.error(`Patchright installation via npx failed with code ${code}`);
+                            rejectMethod(new Error(`npx install failed with code ${code}`));
+                        }
+                    });
+
+                    npxProcess.on('error', (error) => {
+                        log.error('Failed to start npx Patchright installation:', error.message);
+                        rejectMethod(error);
+                    });
+                });
+            },
+            // Method 2: Try using node_modules/.bin/patchright directly
+            () => {
+                return new Promise((resolveMethod, rejectMethod) => {
+                    const patchrightBin = path.join(__dirname, '..', 'node_modules', '.bin', 'patchright');
+                    const npxProcess = spawn(patchrightBin, ['install', 'chromium'], {
+                        stdio: ['pipe', 'pipe', 'pipe'],
+                        shell: true,
+                        cwd: __dirname
+                    });
+
+                    let stdout = '';
+                    let stderr = '';
+
+                    npxProcess.stdout.on('data', (data) => {
+                        stdout += data.toString();
+                        log.info(`[patchright-install-local] ${data.toString().trim()}`);
+                    });
+
+                    npxProcess.stderr.on('data', (data) => {
+                        stderr += data.toString();
+                        log.error(`[patchright-install-local] ${data.toString().trim()}`);
+                    });
+
+                    npxProcess.on('close', (code) => {
+                        if (code === 0) {
+                            log.info('Patchright browsers installed successfully via local binary');
+                            resolveMethod(true);
+                        } else {
+                            log.error(`Patchright installation via local binary failed with code ${code}`);
+                            rejectMethod(new Error(`local binary install failed with code ${code}`));
+                        }
+                    });
+
+                    npxProcess.on('error', (error) => {
+                        log.error('Failed to start local Patchright installation:', error.message);
+                        rejectMethod(error);
+                    });
+                });
+            }
+        ];
+
+        // Try each installation method in sequence
+        (async () => {
+            for (const installMethod of installMethods) {
+                try {
+                    const result = await installMethod();
+                    if (result) {
+                        resolve(result);
+                        return;
+                    }
+                } catch (error) {
+                    log.warn(`Installation method failed: ${error.message}`);
+                    continue;
+                }
+            }
+            reject(new Error('All Patchright installation methods failed'));
+        })();
+    });
+}
+
 const state = generateRandomState(8);
 const codeVerifier = generateCodeVerifier(45);
 const codeChallenge = getCodeChallenge(codeVerifier);
@@ -220,7 +341,7 @@ async function startAuthFlow() {
                 log.info('Using Patchright browser executable:', executablePath);
             } catch (error) {
                 log.error('Patchright browsers not available:', error.message);
-                fail(new Error('Patchright browsers are not installed. Please restart the launcher to automatically install them, or run "npx patchright install" manually.'));
+                fail(new Error('Patchright browsers are not installed. Please restart the launcher to automatically install them, or run "npx patchright install chromium" manually.'));
                 return;
             }
 
@@ -299,4 +420,4 @@ async function startAuthFlow() {
     });
 }
 
-module.exports = { startAuthFlow, writeAccountsToFile };
+module.exports = { startAuthFlow, writeAccountsToFile, checkPatchrightBrowsers, installPatchrightBrowsers };

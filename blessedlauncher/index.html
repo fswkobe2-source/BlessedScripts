@@ -399,6 +399,112 @@
             margin: 0 auto 1rem;
         }
 
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-tab {
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 8px 8px 0 0;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-tab.active {
+            background: rgba(74, 144, 226, 0.8);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .scripts-section {
+            padding: 1rem;
+        }
+
+        .scripts-info {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .scripts-info code {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .scripts-browser {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .script-item {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .script-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .script-item div:first-child {
+            flex: 1;
+        }
+
+        .script-item strong {
+            display: block;
+            color: #4a90e2;
+            margin-bottom: 0.25rem;
+        }
+
+        .script-item span {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .script-item small {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+        }
+
+        .script-item div:last-child {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .script-item button {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            border-radius: 4px;
+        }
+
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
@@ -527,6 +633,138 @@
             color: rgba(255, 255, 255, 0.4);
             font-family: 'Orbitron', monospace;
         }
+
+        /* Loading Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(20, 10, 40, 0.98) 0%, rgba(10, 5, 20, 0.98) 100%);
+            border: 1px solid rgba(120, 50, 255, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 25px 50px rgba(120, 50, 255, 0.4);
+            backdrop-filter: blur(20px);
+        }
+
+        .modal-spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(255, 255, 255, 0.1);
+            border-top-color: #7832ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 2rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #7832ff;
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .modal-message {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* Confirmation Dialog Styles */
+        .confirm-dialog {
+            background: linear-gradient(135deg, rgba(20, 10, 40, 0.98) 0%, rgba(10, 5, 20, 0.98) 100%);
+            border: 1px solid rgba(255, 50, 50, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            max-width: 450px;
+            box-shadow: 0 25px 50px rgba(255, 50, 50, 0.3);
+            backdrop-filter: blur(20px);
+        }
+
+        .confirm-dialog.danger {
+            border-color: rgba(255, 50, 50, 0.5);
+            box-shadow: 0 25px 50px rgba(255, 50, 50, 0.4);
+        }
+
+        .confirm-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ff3232;
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .confirm-message {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .confirm-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-confirm-danger {
+            background: linear-gradient(135deg, #ff3232 0%, #ff6464 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-confirm-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 50, 50, 0.4);
+        }
+
+        .btn-cancel {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.08) 100%);
+            color: rgba(255, 255, 255, 0.9);
+            padding: 1rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-cancel:hover {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.12) 100%);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -542,22 +780,52 @@
                 <p>Advanced OSRS Botting Platform</p>
             </div>
             
-            <div class="account-section">
-                <h3>Jagex Accounts</h3>
-                <div id="account-list" class="account-list">
-                    <div class="loading" id="accounts-loading">
-                        <div class="spinner"></div>
-                        <p>Loading accounts...</p>
-                    </div>
-                    <div class="no-accounts hidden" id="no-accounts">
-                        <p>No accounts found</p>
-                        <button class="btn btn-primary" onclick="startAuthFlow()">Add Account</button>
+            <!-- Navigation Tabs -->
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showTab('accounts')" id="accounts-tab">Accounts</button>
+                <button class="nav-tab" onclick="showTab('scripts')" id="scripts-tab">Scripts</button>
+            </div>
+            
+            <!-- Accounts Section -->
+            <div class="tab-content" id="accounts-content">
+                <div class="account-section">
+                    <h3>Jagex Accounts</h3>
+                    <div id="account-list" class="account-list">
+                        <div class="loading" id="accounts-loading">
+                            <div class="spinner"></div>
+                            <p>Loading accounts...</p>
+                        </div>
+                        <div class="no-accounts hidden" id="no-accounts">
+                            <p>No accounts found</p>
+                            <button class="btn btn-primary" onclick="startAuthFlow()">Add Account</button>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="btn-group" style="margin-top: 1.5rem;">
                     <button class="btn btn-secondary" onclick="refreshAccounts()">Refresh</button>
                     <button class="btn btn-danger" onclick="removeAllAccounts()">Remove All</button>
+                </div>
+            </div>
+            
+            <!-- Scripts Section -->
+            <div class="tab-content hidden" id="scripts-content">
+                <div class="scripts-section">
+                    <h3>User Scripts</h3>
+                    <div class="scripts-info">
+                        <p>Drop .jar or .class files in:</p>
+                        <code>C:\Users\andre\.blessedscripts\scripts</code>
+                    </div>
+                    
+                    <div class="scripts-browser" id="scripts-list">
+                        <div class="loading" id="scripts-loading">
+                            <div class="spinner"></div>
+                            <p>Scanning for scripts...</p>
+                        </div>
+                        <div class="no-scripts hidden" id="no-scripts">
+                            <p>No scripts found</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -616,6 +884,27 @@
 
     <div class="version-info">
         Blessed Scripts Launcher v2.1.25
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="modal-overlay" id="loading-modal">
+        <div class="modal-content">
+            <div class="modal-spinner"></div>
+            <div class="modal-title">Setting Up Browser</div>
+            <div class="modal-message" id="loading-message">Please wait, this may take a minute...</div>
+        </div>
+    </div>
+
+    <!-- Confirmation Dialog -->
+    <div class="modal-overlay" id="confirm-dialog">
+        <div class="confirm-dialog danger">
+            <div class="confirm-title">Remove All Accounts</div>
+            <div class="confirm-message">Are you sure you want to remove all accounts? This cannot be undone.</div>
+            <div class="confirm-buttons">
+                <button class="btn-confirm-danger" onclick="confirmRemoveAll()">Yes, Remove All</button>
+                <button class="btn-cancel" onclick="cancelRemoveAll()">Cancel</button>
+            </div>
+        </div>
     </div>
 
     <script src="renderer.js"></script>
