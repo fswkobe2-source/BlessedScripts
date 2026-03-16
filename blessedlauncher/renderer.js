@@ -221,19 +221,58 @@ async function launchClient() {
 
 // Open Discord link
 function openDiscord() {
-    window.electron.openExternal('https://discord.gg/SjSukZkfxh');
+    console.log('Discord button clicked!');
+    try {
+        window.electron.openExternal('https://discord.gg/SjSukZkfxh');
+        console.log('Discord link opened successfully');
+    } catch (error) {
+        console.error('Failed to open Discord link:', error);
+    }
 }
 
 // Check for updates
 async function checkForUpdates() {
+    console.log('Update button clicked!');
+    const updateBtn = $('update-btn');
+    const originalText = updateBtn.innerHTML;
+    
     try {
-        showStatus('Checking for updates...');
+        // Show checking state
+        updateBtn.innerHTML = '⏳ Checking for updates...';
+        updateBtn.classList.add('checking');
+        updateBtn.style.pointerEvents = 'none';
+        
+        console.log('Starting update check...');
         const result = await window.electron.checkForUpdates();
+        console.log('Update check result:', result);
+        
+        // Reset button state
+        updateBtn.innerHTML = originalText;
+        updateBtn.classList.remove('checking');
+        updateBtn.style.pointerEvents = 'auto';
+        
         // The update dialog will be handled by the main process
-        showStatus('Update check completed');
+        // If we get here, it means no update was found or there was an error
+        if (result === false) {
+            // No update found case is handled by the main process dialog
+            console.log('Update check completed');
+        }
     } catch (error) {
         console.error('Failed to check for updates:', error);
-        showStatus('Failed to check for updates');
+        
+        // Reset button state
+        updateBtn.innerHTML = originalText;
+        updateBtn.classList.remove('checking');
+        updateBtn.style.pointerEvents = 'auto';
+        
+        // Check if it's a network error
+        if (error.message && error.message.includes('network') || 
+            error.message && error.message.includes('ENOTFOUND') ||
+            error.message && error.message.includes('ECONNREFUSED')) {
+            showStatus('Could not check for updates. Please check your connection.', 'error');
+        } else {
+            showStatus('Failed to check for updates. Please try again.', 'error');
+        }
     }
 }
 

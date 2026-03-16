@@ -217,12 +217,14 @@ module.exports = async function (deps) {
         }
     });
 
-    ipcMain.handle('open-external', async (url) => {
+    ipcMain.handle('open-external', async (event, url) => {
         try {
+            console.log('Opening external URL:', url);
             await shell.openExternal(url);
             log.info(`Opened external URL: ${url}`);
         } catch (error) {
             log.error(`Error opening external URL: ${error.message}`);
+            console.error('Error opening external URL:', error);
         }
     });
 

@@ -457,13 +457,21 @@
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s;
-            cursor: pointer;
+            cursor: pointer !important;
+            user-select: none;
+            z-index: 15;
+            pointer-events: auto !important;
         }
 
         .discord-link:hover {
             background: rgba(88, 101, 242, 0.3);
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(88, 101, 242, 0.4);
+        }
+
+        .discord-link:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(88, 101, 242, 0.4);
         }
 
         .update-link {
@@ -481,13 +489,34 @@
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s;
-            cursor: pointer;
+            cursor: pointer !important;
+            user-select: none;
+            z-index: 15;
+            pointer-events: auto !important;
         }
 
         .update-link:hover {
             background: rgba(52, 211, 153, 0.3);
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(52, 211, 153, 0.4);
+        }
+
+        .update-link:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(52, 211, 153, 0.4);
+        }
+
+        .update-link.checking {
+            background: rgba(255, 193, 7, 0.2);
+            border-color: rgba(255, 193, 7, 0.5);
+            color: #ffc107;
+            cursor: wait !important;
+            pointer-events: none !important;
+        }
+
+        .update-link.checking:hover {
+            transform: none;
+            box-shadow: none;
         }
 
         .version-info {
@@ -577,13 +606,13 @@
         </main>
     </div>
 
-    <a href="#" onclick="openDiscord()" class="discord-link">
+    <div class="discord-link" onclick="openDiscord()">
         💬 Join Discord
-    </a>
+    </div>
 
-    <a href="#" onclick="checkForUpdates()" class="update-link">
+    <div class="update-link" onclick="checkForUpdates()" id="update-btn">
         🔄 Check for Updates
-    </a>
+    </div>
 
     <div class="version-info">
         Blessed Scripts Launcher v2.1.25

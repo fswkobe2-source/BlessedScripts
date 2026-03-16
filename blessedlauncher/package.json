@@ -1,6 +1,6 @@
 {
   "name": "blessed-launcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Blessed Scripts Launcher with Jagex Account Integration",
   "main": "main.js",
   "scripts": {

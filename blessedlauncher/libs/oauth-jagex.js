@@ -213,7 +213,18 @@ async function startAuthFlow() {
         }
 
         try {
-            const browser = await chromium.launch({
+            // Check if Patchright browsers are available before launching
+            let browser;
+            try {
+                const executablePath = chromium.executablePath();
+                log.info('Using Patchright browser executable:', executablePath);
+            } catch (error) {
+                log.error('Patchright browsers not available:', error.message);
+                fail(new Error('Patchright browsers are not installed. Please restart the launcher to automatically install them, or run "npx patchright install" manually.'));
+                return;
+            }
+
+            browser = await chromium.launch({
                 headless: false,
                 args: ['--no-sandbox', '--disable-setuid-sandbox']
             });

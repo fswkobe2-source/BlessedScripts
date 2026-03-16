@@ -184,6 +184,7 @@ class Updater {
             defaultId: 0
         }).then((result) => {
             if (result.response === 0 && updateInfo.isNewer) {
+                // User chose to update - automatically download and install
                 this.startUpdate(updateInfo);
             }
         });
@@ -276,21 +277,57 @@ class Updater {
     // Manual check for updates (user initiated)
     async checkForUpdatesManually() {
         this.userInitiated = true;
-        const result = await this.checkForUpdates();
-        this.userInitiated = false;
         
-        if (!result && !this.updateAvailable) {
-            // No update found
-            dialog.showMessageBox(this.mainWindow, {
-                type: 'info',
-                title: 'No Updates Available',
-                message: 'You\'re running the latest version',
-                detail: `Current version: ${app.getVersion()}`,
-                buttons: ['OK']
-            });
+        try {
+            const result = await this.checkForUpdates();
+            this.userInitiated = false;
+            
+            if (!result && !this.updateAvailable) {
+                // No update found - show the specific message requested
+                dialog.showMessageBox(this.mainWindow, {
+                    type: 'info',
+                    title: 'Up to Date',
+                    message: 'You are up to date!',
+                    detail: 'Version 1.0.0',
+                    buttons: ['OK']
+                });
+            }
+            
+            return result;
+        } catch (error) {
+            this.userInitiated = false;
+            log.error('Manual update check failed:', error);
+            
+            // Check if it's a network connectivity issue
+            if (error.message && (
+                error.message.includes('ENOTFOUND') || 
+                error.message.includes('ECONNREFUSED') ||
+                error.message.includes('network') ||
+                error.message.includes('timeout') ||
+                error.code === 'ENOTFOUND' ||
+                error.code === 'ECONNREFUSED'
+            )) {
+                // Show the specific network error message requested
+                dialog.showMessageBox(this.mainWindow, {
+                    type: 'warning',
+                    title: 'Connection Error',
+                    message: 'Could not check for updates.',
+                    detail: 'Please check your connection.',
+                    buttons: ['OK']
+                });
+            } else {
+                // Generic error
+                dialog.showMessageBox(this.mainWindow, {
+                    type: 'error',
+                    title: 'Update Check Failed',
+                    message: 'Failed to check for updates',
+                    detail: error.message || 'An unknown error occurred',
+                    buttons: ['OK']
+                });
+            }
+            
+            return false;
         }
-        
-        return result;
     }
 }
 
