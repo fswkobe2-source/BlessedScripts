@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="RSBBB:jar" />
+      <artifact name="BlessedScripts:jar" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
@@ -10,18 +10,436 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9a934c9c-1df5-401c-be85-1862717f067b" name="Default Changelist" comment="Fix workspace">
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/botLauncher/Application.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/botLauncher/BotClassLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/botLauncher/BotLite.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/botLauncher/BotLiteInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/botLauncher/CLIHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/botLauncher/JnREPL.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/botLauncher/RuneLiteTestFeatures.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/EventManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/EventMulticaster.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/events/CharacterMovedEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/events/MessageEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/events/PaintEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/events/RSEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/events/TextPaintEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/CharacterMovedLogger.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/DrawBoundaries.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/DrawGround.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/DrawInventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/DrawItems.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/DrawModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/DrawMouse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/DrawMouseTrail.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/DrawNPCs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/DrawObjects.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/DrawPlayers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/DrawSettings.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/DrawWeb.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/MessageLogger.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/TAnimation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/TCamera.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/TFPS.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/TFloorHeight.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/TLoginIndex.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/TMenu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/TMenuActions.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/TMousePosition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/TPlayerPosition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/TTab.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/impl/TUserInputAllowed.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/listener/CharacterMovedListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/listener/MessageListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/listener/PaintListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/event/listener/TextPaintListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/BreakHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/InputManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/LogFormatter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/LogOutputStream.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/MouseHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/PassiveScriptHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/ScriptHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/SystemConsoleHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/TextAreaLogHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/GlobalConfiguration.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/GlobalWidgetInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/VarbitIndices.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/VarbitValues.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/VarcIntIndices.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/VarcIntValues.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/VarcStrIndices.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/VarpIndices.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/VarpValues.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/WidgetIndices.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/enums/InterfaceTab.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/enums/MagicBook.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/enums/Prayers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/enums/Rune.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/enums/Skill.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/enums/Spell.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/globval/enums/ViewportLayout.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/input/Canvas.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/input/Focus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/input/Keyboard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/input/Mouse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/input/MouseInputBlocker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/input/MouseMotionBlocker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/input/VirtualKeyboard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/input/VirtualMouse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/instrumentate/CanvasMousePositionAgent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/instrumentate/ComponentMousePositionTransformer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/instrumentate/ContainerMousePositionTransformer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/listener/DebugSettingsListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/listener/PassiveScriptListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/listener/ScriptListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/naturalmouse/RSBSystemCalls.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/wrappers/Deque.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/wrappers/Filter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/wrappers/NodeDeque.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/wrappers/NodeSub.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/wrappers/NodeSubQueue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/wrappers/Queue.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/internal/wrappers/TileFlags.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Account.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Bank.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Calculations.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Camera.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Chat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/ClientLocalStorage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Combat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Environment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Equipment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Game.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/GameGUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/GrandExchange.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/GroundItems.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Interfaces.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Inventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Keyboard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Magic.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Menu.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/MethodContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/MethodProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Methods.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Mouse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/NPCs.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Objects.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Players.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Prayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/RandomEvents.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Skills.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Store.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Tiles.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Trade.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Walking.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/Web.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/methods/WorldHopper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/plugin/AccountManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/plugin/LogTextArea.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/plugin/ScriptSelector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/AbstractQueryBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/PositionableQueryBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/RSEquipmentItemQueryBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/RSGroundItemQueryBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/RSInventoryItemQueryBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/RSNPCQueryBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/RSObjectQueryBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/RSPlayerQueryBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/request/PositionableQueryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/request/QueryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/request/RSEquipmentItemQueryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/request/RSGroundItemQueryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/request/RSInventoryItemQueryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/request/RSNPCQueryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/request/RSObjectQueryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/request/RSPlayerQueryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/request/RSWidgetItemQueryRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/result/PositionableQueryResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/query/result/QueryResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/script/PassiveScript.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/script/PassiveScriptManifest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/script/Random.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/script/Script.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/script/ScriptManifest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/script/randoms/LoginBot.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/service/FileScriptSource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/service/Monitoring.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/service/ScriptClassLoader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/service/ScriptDefinition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/service/ScriptSource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/service/ServiceException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/testsScript/Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/util/AccountStore.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/util/Base64.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/util/Extractor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/util/OutputObjectComparer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/util/Pair.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/util/Parameters.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/util/ScreenshotUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/util/SetForegroundWindowUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/util/SkillTracker.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/util/StdRandom.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/util/StringUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/util/Timer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/util/WindowUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSArea.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSCharacter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSCharacterModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSGroundItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSGroundItemModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSGroundObjectModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSLocalPath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSNPC.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSObjectModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSPath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSPlayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSTile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSTilePath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSWallObjectModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSWidget.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/RSWidgetItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/client_wrapper/BaseClientWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/client_wrapper/BaseWidgetWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/client_wrapper/RSClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/common/CacheProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/common/ClickBox.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/common/Clickable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/common/Clickable07.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/common/Positionable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/subwrap/ChooseOption.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/subwrap/NPCChat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/subwrap/NPCPath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/net/runelite/blessedscripts/wrappers/subwrap/RSMenuNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.run/OsrsBot [botRun].run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.run/OsrsBot [botRun].run.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.run/OsrsBot [headlessBotRun].run.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.run/OsrsBot [headlessBotRun].run.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/client/callback/Hooks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/runelite/client/callback/Hooks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSObjectModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSObjectModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/client_wrapper/BaseClientWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/client_wrapper/BaseClientWrapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/client_wrapper/RSClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/client_wrapper/RSClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/member-search-index.js" beforeDir="false" afterPath="$PROJECT_DIR$/docs/member-search-index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/rsb/internal/globval/GlobalConfiguration.Paths.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/rsb/internal/globval/GlobalConfiguration.Paths.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/partial-patch.sh" beforeDir="false" afterPath="$PROJECT_DIR$/partial-patch.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project.clj" beforeDir="false" afterPath="$PROJECT_DIR$/project.clj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/botLauncher/Application.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/botLauncher/BotClassLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/botLauncher/BotLite.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/botLauncher/BotLiteInterface.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/botLauncher/CLIHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/botLauncher/JnREPL.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/botLauncher/RuneLiteTestFeatures.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/EventManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/EventMulticaster.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/events/CharacterMovedEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/events/MessageEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/events/PaintEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/events/RSEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/events/TextPaintEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/CharacterMovedLogger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/DrawBoundaries.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/DrawGround.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/DrawInventory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/DrawItems.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/DrawModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/DrawMouse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/DrawMouseTrail.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/DrawNPCs.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/DrawObjects.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/DrawPlayers.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/DrawSettings.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/DrawWeb.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/MessageLogger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/TAnimation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/TCamera.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/TFPS.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/TFloorHeight.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/TLoginIndex.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/TMenu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/TMenuActions.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/TMousePosition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/TPlayerPosition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/TTab.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/impl/TUserInputAllowed.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/listener/CharacterMovedListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/listener/MessageListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/listener/PaintListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/event/listener/TextPaintListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/BreakHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/InputManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/LogFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/LogOutputStream.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/MouseHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/PassiveScriptHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/ScriptHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/SystemConsoleHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/TextAreaLogHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/GlobalConfiguration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/GlobalWidgetInfo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/VarbitIndices.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/VarbitValues.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/VarcIntIndices.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/VarcIntValues.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/VarcStrIndices.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/VarpIndices.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/VarpValues.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/WidgetIndices.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/enums/InterfaceTab.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/enums/MagicBook.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/enums/Prayers.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/enums/Rune.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/enums/Skill.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/enums/Spell.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/globval/enums/ViewportLayout.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/input/Canvas.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/input/Focus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/input/Keyboard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/input/Mouse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/input/MouseInputBlocker.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/input/MouseMotionBlocker.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/input/VirtualKeyboard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/input/VirtualMouse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/instrumentate/CanvasMousePositionAgent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/instrumentate/ComponentMousePositionTransformer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/instrumentate/ContainerMousePositionTransformer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/listener/DebugSettingsListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/listener/PassiveScriptListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/listener/ScriptListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/naturalmouse/RSBSystemCalls.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/wrappers/Deque.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/wrappers/Filter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/wrappers/NodeDeque.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/wrappers/NodeSub.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/wrappers/NodeSubQueue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/wrappers/Queue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/internal/wrappers/TileFlags.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Account.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Bank.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Calculations.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Camera.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Chat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/ClientLocalStorage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Combat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Environment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Equipment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Game.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/GameGUI.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/GrandExchange.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/GroundItems.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Interfaces.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Inventory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Keyboard.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Magic.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Menu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/MethodContext.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/MethodProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Methods.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Mouse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/NPCs.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Objects.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Players.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Prayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/RandomEvents.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Skills.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Store.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Tiles.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Trade.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Walking.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Web.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/WorldHopper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/plugin/AccountManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/plugin/LogTextArea.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/plugin/ScriptSelector.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/AbstractQueryBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/PositionableQueryBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/RSEquipmentItemQueryBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/RSGroundItemQueryBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/RSInventoryItemQueryBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/RSNPCQueryBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/RSObjectQueryBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/RSPlayerQueryBuilder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/request/PositionableQueryRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/request/QueryRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/request/RSEquipmentItemQueryRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/request/RSGroundItemQueryRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/request/RSInventoryItemQueryRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/request/RSNPCQueryRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/request/RSObjectQueryRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/request/RSPlayerQueryRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/request/RSWidgetItemQueryRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/result/PositionableQueryResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/query/result/QueryResult.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/script/PassiveScript.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/script/PassiveScriptManifest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/script/Random.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/script/Script.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/script/ScriptManifest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/script/randoms/LoginBot.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/service/FileScriptSource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/service/Monitoring.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/service/ScriptClassLoader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/service/ScriptDefinition.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/service/ScriptSource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/service/ServiceException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/testsScript/Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/util/AccountStore.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/util/Base64.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/util/Extractor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/util/OutputObjectComparer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/util/Pair.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/util/Parameters.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/util/ScreenshotUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/util/SetForegroundWindowUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/util/SkillTracker.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/util/StdRandom.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/util/StringUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/util/Timer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/util/WindowUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSArea.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSCharacter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSCharacterModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSGroundItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSGroundItemModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSGroundObjectModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSLocalPath.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSNPC.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSObjectModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSPath.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSTile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSTilePath.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSWallObjectModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSWidget.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/RSWidgetItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/client_wrapper/BaseClientWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/client_wrapper/BaseWidgetWrapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/client_wrapper/RSClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/common/CacheProvider.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/common/ClickBox.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/common/Clickable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/common/Clickable07.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/common/Positionable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/subwrap/ChooseOption.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/subwrap/NPCChat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/subwrap/NPCPath.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/runelite/rsb/wrappers/subwrap/RSMenuNode.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="578" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -71,6 +489,12 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;fswkobe2-source&quot;
+  }
+}</component>
   <component name="GitSEFilterConfiguration">
     <file-type-list>
       <filtered-out-file-type name="LOCAL_BRANCH" />
@@ -79,6 +503,12 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/fswkobe2-source/BlessedScripts.git&quot;,
+    &quot;accountId&quot;: &quot;f481b5d1-d01b-418d-a922-aa9e300bfd09&quot;
+  }
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/Menu.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/net/runelite/rsb/methods/MethodContext.java" root0="FORCE_HIGHLIGHTING" />
@@ -94,29 +524,42 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
   <component name="ProjectId" id="1lnUdVLSWmkt81J803IojbTxJKT" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+  <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
-    <property name="Repository.Attach.Annotations" value="false" />
-    <property name="Repository.Attach.JavaDocs" value="false" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.329653" />
-    <property name="project.structure.side.proportion" value="0.0963939" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
-  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Jaggar\IdeaProjects\TestRSB" />
@@ -130,7 +573,7 @@
       <recent name="C:\Users\gigia\IdeaProjects\RSB\src\main\java\rsb\images" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.OsrsBot [botRun]">
+  <component name="RunManager" selected="Application.headlessBotRun">
     <configuration default="true" type="Babashka" factoryName="BabashkaLocalRepl" activateToolWindowBeforeRun="false">
       <setting name="displayName" value="" />
       <setting name="bbPath" value="" />
@@ -167,11 +610,30 @@
       <setting name="focusEditor" value="false" />
       <method v="2" />
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="untrusted" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="untrusted" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Application.headlessBotRun" />
-      <item itemvalue="Gradle.OsrsBot [botRun]" />
-      <item itemvalue="Gradle.OsrsBot [headlessBotRun]" />
+      <item itemvalue="Gradle.BlessedScripts [botRun]" />
+      <item itemvalue="Gradle.BlessedScripts [headlessBotRun]" />
     </list>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
+        <option value="bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.30387.90" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -184,6 +646,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1608232435561</updated>
+      <workItem from="1773621686459" duration="298000" />
+      <workItem from="1773622018598" duration="2193000" />
     </task>
     <task id="LOCAL-00001" summary="API is now functional. Updated a plethora of methods and revised the hook class. Some widget ids are likely broken and will need revisiting. I should really check on the shoddy built-in compilation sometime.">
       <created>1642044439045</created>
@@ -488,6 +952,9 @@
     </task>
     <option name="localTasksCounter" value="44" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">

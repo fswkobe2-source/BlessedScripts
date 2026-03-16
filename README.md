@@ -1,14 +1,14 @@
-<h1 align="center">OSRSBot</h1>
+<h1 align="center">BlessedScripts</h1>
 
 <p align="center">An automation API for Old School RuneScape</p>
 
 <p align="center">
   <img src="./assets/osrs-bot-demo.png"
-    alt="OSRSBot automating the RuneLite client"
+    alt="BlessedScripts automating the RuneLite client"
     width="400"/>
 </p>
 
-<p align="center"><em style="font-size: 11px">OSRSBot automating the RuneLite client</em></p>
+<p align="center"><em style="font-size: 11px">BlessedScripts automating the RuneLite client</em></p>
 
 ___
 
@@ -18,8 +18,8 @@ If you are interested in writing scripts go to the [script template](https://git
 ## Community
 * [Discord](https://discord.gg/CGBXNrHREP)
 
-### What is OSRSBot?
-OSRSBot is an API designed to aid in automating the gameplay of Old School RuneScape using RuneLite's 
+### What is BlessedScripts?
+BlessedScripts is an API designed to aid in automating the gameplay of Old School RuneScape using RuneLite's 
 third party client.
 
 ###### RuneLite?
@@ -55,9 +55,9 @@ To build make sure to use the Gradle build tasks to build the classes or the jar
 ###### Installing a script
 To install a .jar script, put it in the following folder:
 
-**Windows:** C:\\Users\\[username]\\OsrsBot\\Scripts\\Precompiled \
-**Linux:** /home/[username]/.config/OsrsBot/Scripts/Precompiled \
-**MacOS:** /Users/[username]/Library/Application Support/OsrsBot/Scripts/Precompiled
+**Windows:** C:\\Users\\[username]\\BlessedScripts\\Scripts\\Precompiled \
+**Linux:** /home/[username]/.config/BlessedScripts/Scripts/Precompiled \
+**MacOS:** /Users/[username]/Library/Application Support/BlessedScripts/Scripts/Precompiled
 
 
 ###### Running a script
@@ -76,17 +76,17 @@ fixing a widgetID. That said if you need to test certain changes and behaviors f
 
 #### Building Scripts
 For the general populace though it isn't necessary, and you can simply refer to
-[First Script Set Up](https://github.com/OSRSB/script-template#readme) 
-You can follow the instructions there to get a feel for how to proceed in using the APIs in OSRSB to build 
+[First Script Set Up](https://github.com/BlessedScripts/script-template#readme) 
+You can follow the instructions there to get a feel for how to proceed in using the APIs in BlessedScripts to build 
 automation tools for Old School RuneScape.
 
 ##### Wiki Links
 If you do plan on operating within the API some quick wiki pages
 to look over are:
 
-1. [Setting up the project](https://github.com/OSRSB/RSB/wiki/Setting-up-the-project)
-2. [Developing a script in the API environment](https://github.com/OSRSB/RSB/wiki/Developing-a-script-in-the-API-environment)
-3. [Script Creation and Logic](https://github.com/OSRSB/RSB/wiki/Creating-a-script)
+1. [Setting up the project](https://github.com/BlessedScripts/BlessedScripts/wiki/Setting-up-the-project)
+2. [Developing a script in the API environment](https://github.com/BlessedScripts/BlessedScripts/wiki/Developing-a-script-in-the-API-environment)
+3. [Script Creation and Logic](https://github.com/BlessedScripts/BlessedScripts/wiki/Creating-a-script)
 #### Running the API
 To run you'll need to modify your program arguments to the following depending on how you wish it to run:
 
@@ -116,7 +116,7 @@ manageable.
 Script jars are not intended to be runnable (even if they're able to be). They're really just a zip file for the API
 to load.
 If the script is compiled without dependencies and only using the module compiled (script classes only) then 
-you really only need to worry about directing the gradle.build to your local file system directory containing OSRSBot.
+you really only need to worry about directing the gradle.build to your local file system directory containing BlessedScripts.
 
 ###### Simple
 Adjusting a built output (class files not a jar) where they are in the Source folder in GService means that updates 
@@ -125,9 +125,9 @@ I'd recommend using this option and have configured it to default to this behavi
 (Personally I just keep multiple windows of IntelliJ. One for each project. You could likely set 
 up the script environment to be a module within the opened project). 
 ###### Advanced
-Additionally, OSRSBot does enable a hacky in-environment test script folder that will compile on runtime of the 
+Additionally, BlessedScripts does enable a hacky in-environment test script folder that will compile on runtime of the 
 API without any extra effort from you. Refer to the Wiki Links second bulletin.
-If you find yourself constantly changing the OSRSBot API and 
+If you find yourself constantly changing the BlessedScripts API and 
 testing your script then you might want to look into that.
 
 #### Dependencies

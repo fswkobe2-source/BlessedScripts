@@ -1,7 +1,7 @@
 (defn get-runelite-version []
   ())
 
-(defproject OSRSB "0.0.1"
+(defproject BlessedScripts "0.0.1"
   :description "A revised bot client on RuneLite (for now)"
   :dependencies [[org.clojure/clojure "1.10.3"]
                  [clj-http "3.12.3"]
@@ -13,7 +13,7 @@
                  #_[javassist/javassist "3.12.1.GA"]
                  #_[net.sf.jopt-simple/jopt-simple "5.0.4"]
                  #_[com.github.joonasvali.naturalmouse/naturalmouse "2.0.3"]
-                 #_[com.github.OSRSB/OSRSBPlugin "main-SNAPSHOT"]]
+                 #_[com.github.BlessedScripts/BlessedScriptsPlugin "main-SNAPSHOT"]]]
   :repositories {"runelite" "https://repo.runelite.net"
                  "jitpack" "https://jitpack.io"
                  "central" "https://repo1.maven.org/maven2/"}
@@ -21,4 +21,4 @@
   :source-paths ["src/main/clojure"]
   #_:java-source-paths #_["src/main/java"]
   :javac-options ["-processor" "lombok.launch.AnnotationProcessorHider$AnnotationProcessor"]
-  :main net.runelite.rsb.launcher.core)
+  :main net.runelite.blessedscripts.launcher.core)

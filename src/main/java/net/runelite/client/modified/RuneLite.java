@@ -1,7 +1,7 @@
 /**
  * Author:GigiaJ
  *
- * A modified RuneLite class that enables the utilization of the RSB API
+ * A modified RuneLite class that enables the utilization of the BlessedScripts API
  *
  */
 package net.runelite.client.modified;
@@ -52,7 +52,7 @@ import net.runelite.client.rs.ClientLoader;
 import net.runelite.client.rs.ClientUpdateCheckMode;
 import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.overlay.WidgetOverlay;
-import net.runelite.rsb.botLauncher.BotLite;
+import net.runelite.blessedscripts.botLauncher.BotLite;
 import okhttp3.Request;
 import okhttp3.Response;
 import net.runelite.client.ui.ClientUI;

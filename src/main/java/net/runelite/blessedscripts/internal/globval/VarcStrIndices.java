@@ -1,0 +1,5 @@
+package net.runelite.blessedscripts.internal.globval;
+
+public class VarcStrIndices {
+    public static final int REPORT_PLAYER_NAME = 370;
+}
