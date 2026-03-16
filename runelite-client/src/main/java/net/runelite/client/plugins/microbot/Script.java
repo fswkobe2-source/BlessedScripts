@@ -3,7 +3,6 @@ package net.runelite.client.plugins.microbot;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.coords.WorldPoint;
-import net.runelite.client.plugins.microbot.shortestpath.ShortestPathPlugin;
 import net.runelite.client.plugins.microbot.util.Global;
 import net.runelite.client.plugins.microbot.util.inventory.Rs2Inventory;
 import net.runelite.client.plugins.microbot.util.player.Rs2Player;
@@ -52,7 +51,7 @@ public abstract class Script extends Global implements IScript {
     public void shutdown() {
         if (mainScheduledFuture != null && !mainScheduledFuture.isDone()) {
             mainScheduledFuture.cancel(true);
-            ShortestPathPlugin.exit();
+            // ShortestPathPlugin.exit(); // REMOVED - Plugin deleted
             if (Microbot.getClientThread().scheduledFuture != null)
                 Microbot.getClientThread().scheduledFuture.cancel(true);
             initialPlayerLocation = null;

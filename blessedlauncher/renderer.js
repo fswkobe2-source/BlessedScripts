@@ -135,9 +135,35 @@ async function loadAccounts() {
 }
 
 async function startAuthFlow() {
-    showStatus('Starting authentication...', 'info');
+    showStatus('Checking browser availability...', 'info');
     
     try {
+        // First check if browsers are installed via IPC
+        const browsersInstalled = await window.electron.checkPatchrightBrowsers();
+        
+        if (!browsersInstalled) {
+            // Show loading modal and install browsers
+            await window.electron.showLoadingModal('Setting up browser for first time login... Please wait, this may take a minute.');
+            
+            try {
+                const installResult = await window.electron.installBrowsersWithFeedback();
+                await window.electron.hideLoadingModal();
+                
+                if (!installResult.success) {
+                    showStatus(`Browser setup failed. Please run: npx patchright install chromium in your terminal and try again.`, 'error');
+                    return;
+                }
+                
+                showStatus('Browser setup complete! Starting authentication...', 'success');
+            } catch (installError) {
+                await window.electron.hideLoadingModal();
+                showStatus(`Browser setup failed. Please run: npx patchright install chromium in your terminal and try again.`, 'error');
+                return;
+            }
+        }
+        
+        showStatus('Starting authentication...', 'info');
+        
         const result = await window.electron.startAuthFlow();
         if (result.error) {
             showStatus(`Authentication failed: ${result.error}`, 'error');
@@ -157,16 +183,17 @@ async function refreshAccounts() {
 }
 
 async function removeAllAccounts() {
-    if (!confirm('Are you sure you want to remove all Jagex accounts?')) {
-        return;
-    }
-    
+    showConfirmDialog();
+}
+
+async function performRemoveAll() {
     try {
         const result = await window.electron.removeAccounts();
         if (result.error) {
             showStatus(`Error removing accounts: ${result.error}`, 'error');
         } else {
             showStatus('All accounts removed successfully', 'success');
+            // Immediately update the UI
             accounts = [];
             selectedAccount = null;
             updateAccountList();
@@ -275,4 +302,45 @@ async function checkForUpdates() {
 document.addEventListener('DOMContentLoaded', () => {
     loadAccounts();
     findBlessedScriptsClient();
+    
+    // Set up modal listeners
+    window.electron.ipcRenderer.receive('show-loading-modal', (event, message) => {
+        showLoadingModal(message);
+    });
+    
+    window.electron.ipcRenderer.receive('hide-loading-modal', () => {
+        hideLoadingModal();
+    });
 });
+
+// Modal functions
+function showLoadingModal(message) {
+    const modal = document.getElementById('loading-modal');
+    const messageEl = document.getElementById('loading-message');
+    messageEl.textContent = message;
+    modal.classList.add('show');
+}
+
+function hideLoadingModal() {
+    const modal = document.getElementById('loading-modal');
+    modal.classList.remove('show');
+}
+
+function showConfirmDialog() {
+    const dialog = document.getElementById('confirm-dialog');
+    dialog.classList.add('show');
+}
+
+function hideConfirmDialog() {
+    const dialog = document.getElementById('confirm-dialog');
+    dialog.classList.remove('show');
+}
+
+function confirmRemoveAll() {
+    hideConfirmDialog();
+    performRemoveAll();
+}
+
+function cancelRemoveAll() {
+    hideConfirmDialog();
+}

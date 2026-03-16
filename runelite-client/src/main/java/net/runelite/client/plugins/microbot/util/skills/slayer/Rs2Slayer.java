@@ -5,9 +5,9 @@ import net.runelite.api.gameval.DBTableID;
 import net.runelite.api.gameval.ItemID;
 import net.runelite.api.gameval.VarPlayerID;
 import net.runelite.client.plugins.microbot.Microbot;
-import net.runelite.client.plugins.microbot.shortestpath.ShortestPathPlugin;
-import net.runelite.client.plugins.microbot.shortestpath.Transport;
-import net.runelite.client.plugins.microbot.shortestpath.TransportType;
+// import net.runelite.client.plugins.microbot.shortestpath.ShortestPathPlugin; // REMOVED
+// import net.runelite.client.plugins.microbot.shortestpath.Transport; // REMOVED
+// import net.runelite.client.plugins.microbot.shortestpath.TransportType; // REMOVED
 import net.runelite.client.plugins.microbot.util.bank.Rs2Bank;
 import net.runelite.client.plugins.microbot.util.equipment.Rs2Equipment;
 import net.runelite.client.plugins.microbot.util.inventory.Rs2Inventory;
@@ -267,61 +267,20 @@ public class Rs2Slayer {
      *
      * @return the list
      */
-    public static List<Transport> prepareItemTransports(WorldPoint cachedMonsterLocation) {
-        ShortestPathPlugin.getPathfinderConfig().setUseBankItems(true);
-        List<Transport> transports = Rs2Walker.getTransportsForPath(Rs2Walker.getWalkPath(cachedMonsterLocation), 0)
-                .stream()
-                .filter(t -> t.getType() == TransportType.TELEPORTATION_ITEM || t.getType() == TransportType.FAIRY_RING)
-                .peek(t -> {
-                    if (t.getType() == TransportType.FAIRY_RING) {
-                        t.setItemIdRequirements(Set.of(Set.of(ItemID.DRAMEN_STAFF, ItemID.LUNAR_MOONCLAN_LIMINAL_STAFF)));
-                    }
-                })
-                .collect(Collectors.toList());
-        ShortestPathPlugin.getPathfinderConfig().setUseBankItems(false);
-
-        transports
-                .forEach(t -> Microbot.log(Level.DEBUG,"Item required: " + t));
-
-        return getMissingItemTransports(transports);
-    }
-
-    private static boolean hasRequiredTeleportItem(Transport transport) {
-        if (transport.getType() == TransportType.FAIRY_RING) {
-            return Rs2Inventory.hasItem(ItemID.DRAMEN_STAFF) ||
-                    Rs2Equipment.isWearing(ItemID.DRAMEN_STAFF) ||
-                    Rs2Inventory.hasItem(ItemID.LUNAR_MOONCLAN_LIMINAL_STAFF) ||
-                    Rs2Equipment.isWearing(ItemID.LUNAR_MOONCLAN_LIMINAL_STAFF);
-        } else if (transport.getType() == TransportType.TELEPORTATION_ITEM) {
-            return transport.getItemIdRequirements()
-                    .stream()
-                    .flatMap(Collection::stream)
-                    .anyMatch(itemId -> Rs2Equipment.isWearing(itemId) || Rs2Inventory.hasItem(itemId));
-        }
-        return false;
-    }
-
-    private static List<Transport> getMissingItemTransports(@NotNull List<Transport> transports) {
-        return transports.stream()
-                .filter(t -> !hasRequiredTeleportItem(t))
-                .collect(Collectors.toList());
+    // REMOVED - Transport classes deleted
+    public static List<?> prepareItemTransports(WorldPoint cachedMonsterLocation) {
+        return List.of(); // Empty implementation
     }
 
     /**
      * Gets missing item ids.
      *
-     * @param transports the transports
+     * @param cachedMonsterLocation the cached monster location
      *
      * @return the missing item ids
      */
-    public static List<Integer> getMissingItemIds(@NotNull List<Transport> transports) {
-        return transports.stream()
-                .flatMap(transport -> transport.getItemIdRequirements()
-                        .stream()
-                        .flatMap(Collection::stream)
-                        .filter(Rs2Bank::hasItem)
-                        .findFirst().stream())
-                .collect(Collectors.toList());
+    public static List<Integer> getMissingItemIds(WorldPoint cachedMonsterLocation) {
+        return List.of(); // Empty implementation
     }
 
 }

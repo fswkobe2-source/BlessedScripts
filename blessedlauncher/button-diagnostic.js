@@ -1,0 +1,122 @@
+// Button Diagnostic Script - Run this in the dev console
+function diagnoseButtons() {
+    console.log('=== BUTTON DIAGNOSTIC ===');
+    
+    // Discord button analysis
+    const discordBtn = document.querySelector('.discord-link');
+    if (discordBtn) {
+        console.log('\n--- DISCORD BUTTON ---');
+        console.log('Element:', discordBtn);
+        console.log('Text content:', discordBtn.textContent);
+        console.log('Has onclick:', !!discordBtn.onclick);
+        console.log('Computed styles:');
+        const discordStyles = window.getComputedStyle(discordBtn);
+        console.log('  pointer-events:', discordStyles.pointerEvents);
+        console.log('  z-index:', discordStyles.zIndex);
+        console.log('  position:', discordStyles.position);
+        console.log('  display:', discordStyles.display);
+        console.log('  cursor:', discordStyles.cursor);
+        console.log('  visibility:', discordStyles.visibility);
+        console.log('  opacity:', discordStyles.opacity);
+        
+        // Check bounding rect
+        const discordRect = discordBtn.getBoundingClientRect();
+        console.log('Bounding rect:', discordRect);
+        console.log('Position: top=' + discordRect.top + ', left=' + discordRect.left + ', width=' + discordRect.width + ', height=' + discordRect.height);
+        
+        // Check if element at this point is our button
+        const elementAtDiscord = document.elementFromPoint(discordRect.left + discordRect.width/2, discordRect.top + discordRect.height/2);
+        console.log('Element at center point:', elementAtDiscord);
+        console.log('Is same element?', elementAtDiscord === discordBtn);
+        
+        // Test click event
+        console.log('Testing click event...');
+        try {
+            discordBtn.click();
+            console.log('Click executed successfully');
+        } catch (e) {
+            console.error('Click failed:', e);
+        }
+    } else {
+        console.log('DISCORD BUTTON NOT FOUND!');
+    }
+    
+    // Update button analysis
+    const updateBtn = document.querySelector('#update-btn');
+    if (updateBtn) {
+        console.log('\n--- UPDATE BUTTON ---');
+        console.log('Element:', updateBtn);
+        console.log('Text content:', updateBtn.textContent);
+        console.log('Has onclick:', !!updateBtn.onclick);
+        console.log('Computed styles:');
+        const updateStyles = window.getComputedStyle(updateBtn);
+        console.log('  pointer-events:', updateStyles.pointerEvents);
+        console.log('  z-index:', updateStyles.zIndex);
+        console.log('  position:', updateStyles.position);
+        console.log('  display:', updateStyles.display);
+        console.log('  cursor:', updateStyles.cursor);
+        console.log('  visibility:', updateStyles.visibility);
+        console.log('  opacity:', updateStyles.opacity);
+        
+        // Check bounding rect
+        const updateRect = updateBtn.getBoundingClientRect();
+        console.log('Bounding rect:', updateRect);
+        console.log('Position: top=' + updateRect.top + ', left=' + updateRect.left + ', width=' + updateRect.width + ', height=' + updateRect.height);
+        
+        // Check if element at this point is our button
+        const elementAtUpdate = document.elementFromPoint(updateRect.left + updateRect.width/2, updateRect.top + updateRect.height/2);
+        console.log('Element at center point:', elementAtUpdate);
+        console.log('Is same element?', elementAtUpdate === updateBtn);
+        
+        // Test click event
+        console.log('Testing click event...');
+        try {
+            updateBtn.click();
+            console.log('Click executed successfully');
+        } catch (e) {
+            console.error('Click failed:', e);
+        }
+    } else {
+        console.log('UPDATE BUTTON NOT FOUND!');
+    }
+    
+    // Check for overlapping elements
+    console.log('\n--- OVERLAP ANALYSIS ---');
+    const allElements = document.querySelectorAll('*');
+    const overlappingElements = [];
+    
+    allElements.forEach(el => {
+        const styles = window.getComputedStyle(el);
+        const rect = el.getBoundingClientRect();
+        
+        // Check if element has position and might overlap
+        if (styles.position !== 'static' && rect.width > 0 && rect.height > 0) {
+            overlappingElements.push({
+                element: el,
+                tagName: el.tagName,
+                className: el.className,
+                id: el.id,
+                zIndex: styles.zIndex,
+                position: styles.position,
+                rect: rect
+            });
+        }
+    });
+    
+    // Sort by z-index
+    overlappingElements.sort((a, b) => {
+        const aZ = parseInt(a.zIndex) || 0;
+        const bZ = parseInt(b.zIndex) || 0;
+        return bZ - aZ;
+    });
+    
+    console.log('Top 10 positioned elements by z-index:');
+    overlappingElements.slice(0, 10).forEach((item, i) => {
+        console.log(`${i+1}. ${item.tagName}${item.id ? '#' + item.id : ''}${item.className ? '.' + item.className : ''} - z-index: ${item.zIndex}, position: ${item.position}`);
+    });
+    
+    console.log('\n=== END DIAGNOSTIC ===');
+}
+
+// Auto-run the diagnostic
+diagnoseButtons();

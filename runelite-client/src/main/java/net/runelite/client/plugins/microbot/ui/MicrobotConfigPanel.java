@@ -39,12 +39,12 @@ import net.runelite.client.externalplugins.ExternalPluginManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginManager;
 import net.runelite.client.plugins.microbot.MicrobotConfigManager;
-import net.runelite.client.plugins.microbot.breakhandler.breakhandlerv2.BreakHandlerV2Config;
-import net.runelite.client.plugins.microbot.breakhandler.breakhandlerv2.PluginStopHelper;
-import net.runelite.client.plugins.microbot.breakhandler.breakhandlerv2.PluginStopOption;
-import net.runelite.client.plugins.microbot.inventorysetups.InventorySetup;
-import net.runelite.client.plugins.microbot.inventorysetups.MInventorySetupsPlugin;
-import net.runelite.client.plugins.microbot.mouserecorder.MouseMacroRecorderPlugin;
+// import net.runelite.client.plugins.microbot.breakhandler.breakhandlerv2.BreakHandlerV2Config; // REMOVED
+// import net.runelite.client.plugins.microbot.breakhandler.breakhandlerv2.PluginStopHelper; // REMOVED
+// import net.runelite.client.plugins.microbot.breakhandler.breakhandlerv2.PluginStopOption; // REMOVED
+// import net.runelite.client.plugins.microbot.inventorysetups.InventorySetup; // REMOVED
+// import net.runelite.client.plugins.microbot.inventorysetups.MInventorySetupsPlugin; // REMOVED
+// import net.runelite.client.plugins.microbot.mouserecorder.MouseMacroRecorderPlugin; // REMOVED
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.DynamicGridLayout;
 import net.runelite.client.ui.FontManager;
@@ -367,8 +367,8 @@ class MicrobotConfigPanel extends MicrobotPluginPanel {
                 item.add(configEntryName, BorderLayout.CENTER);
             }
 
-            if (isBreakHandlerStopConfig(cd, cid)) {
-                item.add(createPluginStopComboBox(cd, cid), BorderLayout.EAST);
+            if (false /*isBreakHandlerStopConfig(cd, cid)*/) { // DISABLED - Plugin deleted
+                // item.add(createPluginStopComboBox(cd, cid), BorderLayout.EAST); // DISABLED
             } else if (cid.getType() == boolean.class) {
                 item.add(createCheckbox(cd, cid), BorderLayout.EAST);
             } else if (cid.getType() == int.class) {
@@ -383,8 +383,8 @@ class MicrobotConfigPanel extends MicrobotPluginPanel {
                 item.add(createColorPicker(cd, cid), BorderLayout.EAST);
             } else if (cid.getType() == Dimension.class) {
                 item.add(createDimension(cd, cid), BorderLayout.EAST);
-            } else if (cid.getType() == InventorySetup.class) {
-                item.add(createInventorySetupsComboBox(cd, cid), BorderLayout.EAST);
+            } else if (false /*cid.getType() == InventorySetup.class*/) { // DISABLED - Plugin deleted
+                // item.add(createInventorySetupsComboBox(cd, cid), BorderLayout.EAST); // DISABLED
             } else if (cid.getType() instanceof Class && ((Class<?>) cid.getType()).isEnum()) {
                 item.add(createComboBox(cd, cid), BorderLayout.EAST);
             } else if (cid.getType() == Keybind.class || cid.getType() == ModifierlessKeybind.class) {
@@ -436,53 +436,6 @@ class MicrobotConfigPanel extends MicrobotPluginPanel {
 
         revalidate();
         applyFilter();
-    }
-
-    private boolean isBreakHandlerStopConfig(ConfigDescriptor cd, ConfigItemDescriptor cid) {
-        return BreakHandlerV2Config.configGroup.equals(cd.getGroup().value())
-                && "pluginToStop".equals(cid.getItem().keyName());
-    }
-
-    private JComboBox<PluginStopOption> createPluginStopComboBox(ConfigDescriptor cd, ConfigItemDescriptor cid) {
-        List<PluginStopOption> options = PluginStopHelper.buildOptions(pluginManager);
-        JComboBox<PluginStopOption> box = new JComboBox<>(new DefaultComboBoxModel<>(options.toArray(new PluginStopOption[0])));
-
-        box.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof PluginStopOption) {
-                    setText(((PluginStopOption) value).getDisplayName());
-                }
-                return this;
-            }
-        });
-
-        String storedRaw = configManager.getConfiguration(cd.getGroup().value(), cid.getItem().keyName());
-        String normalized = PluginStopHelper.normalizeStoredValue(storedRaw, pluginManager);
-        PluginStopOption selected = options.stream()
-                .filter(opt -> opt.getClassName().equals(normalized))
-                .findFirst()
-                .orElse(PluginStopOption.none());
-
-        // migrate legacy enum values to class names
-        if (!Objects.equals(storedRaw, normalized)) {
-            configManager.setConfiguration(cd.getGroup().value(), cid.getItem().keyName(), normalized);
-        }
-
-        box.setSelectedItem(selected);
-        box.setToolTipText(selected.getDisplayName());
-        box.setPreferredSize(new Dimension(box.getPreferredSize().width, 22));
-
-        box.addItemListener(e -> {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                PluginStopOption opt = (PluginStopOption) e.getItem();
-                configManager.setConfiguration(cd.getGroup().value(), cid.getItem().keyName(), opt.getClassName());
-                box.setToolTipText(opt.getDisplayName());
-            }
-        });
-
-        return box;
     }
 
     private void buildInformationPanel(ConfigInformation ci) {
@@ -644,76 +597,22 @@ class MicrobotConfigPanel extends MicrobotPluginPanel {
         JFormattedTextField heightSpinnerTextField = ((JSpinner.DefaultEditor) heightEditor).getTextField();
         heightSpinnerTextField.setColumns(4);
 
-        ChangeListener listener = e ->
-                configManager.setConfiguration(cd.getGroup().value(), cid.getItem().keyName(), widthSpinner.getValue() + "x" + heightSpinner.getValue());
+        JPanel widthPanel = new JPanel();
+        widthPanel.add(new JLabel("W:"));
+        widthPanel.add(widthSpinner);
 
-        widthSpinner.addChangeListener(listener);
-        heightSpinner.addChangeListener(listener);
+        JPanel heightPanel = new JPanel();
+        heightPanel.add(new JLabel("H:"));
+        heightPanel.add(heightSpinner);
 
-        dimensionPanel.add(widthSpinner, BorderLayout.WEST);
-        dimensionPanel.add(new JLabel(" x "), BorderLayout.CENTER);
-        dimensionPanel.add(heightSpinner, BorderLayout.EAST);
+        dimensionPanel.add(widthPanel, BorderLayout.WEST);
+        dimensionPanel.add(heightPanel, BorderLayout.CENTER);
+
+        widthSpinner.addChangeListener(ce -> changeConfiguration(dimensionPanel, cd, cid));
+        heightSpinner.addChangeListener(ce -> changeConfiguration(dimensionPanel, cd, cid));
 
         return dimensionPanel;
     }
-
-    // ---------------------------------------------------------------------------
-// If the type is InventorySetup.class, create a combo box that uses
-// MInventorySetupsPlugin.getInventorySetups(), but stores the *entire* object
-// in config as a JSON string.
-// ---------------------------------------------------------------------------
-    private JComboBox<InventorySetup> createInventorySetupsComboBox(ConfigDescriptor cd, ConfigItemDescriptor cid) {
-        // Suppose MInventorySetupsPlugin.getInventorySetups() returns a List<InventorySetup>
-        List<InventorySetup> setups = MInventorySetupsPlugin.getInventorySetups();
-        if (setups.isEmpty()) {
-            // If there are no setups, return an empty combo box
-            configManager.setConfiguration(cd.getGroup().value(), cid.getItem().keyName(), "");
-            configManager.sendConfig();
-            return new JComboBox<>();
-        }
-        JComboBox<InventorySetup> box = new JComboBox<>(new DefaultComboBoxModel<>(setups.toArray(new InventorySetup[0])));
-
-        // Set the renderer to display the setup name
-        box.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                if (value instanceof InventorySetup) {
-                    InventorySetup setup = (InventorySetup) value;
-                    setText(setup.getName());
-                }
-                return this;
-            }
-        });
-
-        // 1) Retrieve dezerialized InventorySetup from config
-        InventorySetup dezerialized = configManager.getConfiguration(cd.getGroup().value(), cid.getItem().keyName(), InventorySetup.class);
-        if (dezerialized == null) {
-            dezerialized = setups.get(0);
-            configManager.setConfiguration(cd.getGroup().value(), cid.getItem().keyName(), dezerialized);
-            configManager.sendConfig();
-        }
-        for (InventorySetup setup : setups) {
-            if (setup.getName().equals(dezerialized.getName())) {
-                box.setSelectedItem(setup);
-                break;
-            }
-        }
-
-        // 3) Listen for changes
-        box.addItemListener(e ->
-        {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                InventorySetup chosen = (InventorySetup) box.getSelectedItem();
-                if (chosen != null) {
-                    configManager.setConfiguration(cd.getGroup().value(), cid.getItem().keyName(), chosen);
-                }
-            }
-        });
-
-        return box;
-    }
-
     private JComboBox<Enum<?>> createComboBox(ConfigDescriptor cd, ConfigItemDescriptor cid) {
         Class<? extends Enum> type = (Class<? extends Enum>) cid.getType();
 
@@ -829,10 +728,7 @@ class MicrobotConfigPanel extends MicrobotPluginPanel {
         button.addActionListener(e -> {
             ConfigButton next = new ConfigButton(UUID.randomUUID().toString());
             configManager.setConfiguration(cd.getGroup().value(), cid.getItem().keyName(), next);
-            if (MouseMacroRecorderPlugin.CONFIG_GROUP.equals(cd.getGroup().value())
-                    && "openRecordingsFolder".equals(cid.getItem().keyName())) {
-                MouseMacroRecorderPlugin.openRecordingsFolderStatic();
-            }
+            // MouseMacroRecorderPlugin functionality removed - plugin deleted
         });
         return button;
     }

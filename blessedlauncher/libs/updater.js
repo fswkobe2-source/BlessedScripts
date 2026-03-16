@@ -83,7 +83,7 @@ class Updater {
 
     async checkGitHubRelease(currentVersion) {
         try {
-            const response = await axios.get('https://api.github.com/repos/BlessedScripts/BlessedScripts/releases/latest', {
+            const response = await axios.get('https://api.github.com/repos/fswkobe2-source/BlessedScripts/releases/latest', {
                 timeout: 5000,
                 headers: {
                     'User-Agent': 'Blessed-Scripts-Launcher'
@@ -288,7 +288,7 @@ class Updater {
                     type: 'info',
                     title: 'Up to Date',
                     message: 'You are up to date!',
-                    detail: 'Version 1.0.0',
+                    detail: `Version ${app.getVersion()}`,
                     buttons: ['OK']
                 });
             }

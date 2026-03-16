@@ -1,19 +1,27 @@
 package net.runelite.client.plugins.microbot.api;
 
-import net.runelite.api.WorldView;
-import net.runelite.api.coords.LocalPoint;
-import net.runelite.api.coords.WorldPoint;
-import net.runelite.client.plugins.microbot.util.reachable.Rs2Reachable;
-
+/**
+ * Interface for entities in the game world
+ */
 public interface IEntity {
-    int getId();
+    
+    /**
+     * Get the unique identifier for this entity
+     */
+    long getId();
+    
+    /**
+     * Get the name of this entity
+     */
     String getName();
-    WorldPoint getWorldLocation();
-    LocalPoint getLocalLocation();
-    WorldView getWorldView();
-    boolean click();
-    boolean click(String action);
-    default boolean isReachable() {
-        return Rs2Reachable.isReachable(getWorldLocation());
-    }
+    
+    /**
+     * Check if this entity is valid/active
+     */
+    boolean isValid();
+    
+    /**
+     * Get the world location of this entity
+     */
+    net.runelite.api.coords.WorldPoint getWorldLocation();
 }

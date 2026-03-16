@@ -497,9 +497,9 @@ public class RuneLite
 		// This will initialize configuration
 		pluginManager.loadCorePlugins();
 		pluginManager.loadSideLoadPlugins();
-		externalPluginManager.loadExternalPlugins();
+		// externalPluginManager.loadExternalPlugins(); // DISABLED - Remove Microbot plugin hub
 
-        microbotPluginManager.loadSideLoadPlugins();
+        // microbotPluginManager.loadSideLoadPlugins(); // DISABLED - Remove Microbot plugins
 
         SplashScreen.stage(.70, null, "Finalizing configuration");
 
@@ -522,8 +522,8 @@ public class RuneLite
 		// Register event listeners
 		eventBus.register(clientUI);
 		eventBus.register(pluginManager);
-		eventBus.register(externalPluginManager);
-		eventBus.register(microbotPluginManager);
+		// eventBus.register(externalPluginManager); // DISABLED - Remove Microbot plugin hub
+		// eventBus.register(microbotPluginManager); // DISABLED - Remove Microbot plugins
 		eventBus.register(overlayManager);
 		eventBus.register(configManager);
 		eventBus.register(discordService);

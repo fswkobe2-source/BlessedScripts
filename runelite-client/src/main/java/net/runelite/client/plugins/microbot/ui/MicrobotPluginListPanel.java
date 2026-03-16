@@ -176,8 +176,12 @@ public class MicrobotPluginListPanel extends MicrobotPluginPanel {
     public void rebuildPluginList() {
         List<String> pinnedPlugins = getPinnedPluginNames();
 
-        Predicate<Plugin> isMicrobotPlugin = plugin ->
-                plugin.getClass().getPackage().getName().toLowerCase().contains("microbot");
+        // Filter OUT all microbot plugins except the core MicrobotPlugin itself
+        Predicate<Plugin> isMicrobotPlugin = plugin -> {
+            String packageName = plugin.getClass().getPackage().getName();
+            return packageName.equals("net.runelite.client.plugins.microbot") && 
+                   !plugin.getClass().getSimpleName().equals("MicrobotPlugin");
+        };
 
         // Might add a different check later if needed, but for now, we consider external plugins as those
         Predicate<Plugin> isExternalPlugin = plugin ->

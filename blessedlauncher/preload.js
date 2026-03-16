@@ -19,6 +19,10 @@ contextBridge.exposeInMainWorld('electron', {
     getBundledClientPath: () => ipcRenderer.invoke('get-bundled-client-path'),
     getDevClientPath: () => ipcRenderer.invoke('get-dev-client-path'),
     checkForUpdates: () => ipcRenderer.invoke('check-for-updates'),
+    showLoadingModal: (message) => ipcRenderer.invoke('show-loading-modal', message),
+    hideLoadingModal: () => ipcRenderer.invoke('hide-loading-modal'),
+    installBrowsersWithFeedback: () => ipcRenderer.invoke('install-browsers-with-feedback'),
+    checkPatchrightBrowsers: () => ipcRenderer.invoke('check-patchright-browsers'),
     ipcRenderer: {
         send: (channel, data) => ipcRenderer.send(channel, data),
         receive: (channel, func) =>
