@@ -332,6 +332,13 @@ public class PluginManager {
 				continue;
 			}
 
+			// Hide Microbot bot scripts from UI - BlessedScripts customization
+			String pluginName = pluginDescriptor.name();
+			if (pluginName.startsWith("[")) {
+				log.debug("Skipping Microbot plugin {} from UI", pluginName);
+				continue;
+			}
+
             graph.addNode((Class<Plugin>) clazz);
         }
 
