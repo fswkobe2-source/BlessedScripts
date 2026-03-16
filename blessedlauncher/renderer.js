@@ -221,10 +221,8 @@ async function launchClient() {
 
 // Open Discord link
 function openDiscord() {
-    console.log('Discord button clicked!');
     try {
         window.electron.openExternal('https://discord.gg/SjSukZkfxh');
-        console.log('Discord link opened successfully');
     } catch (error) {
         console.error('Failed to open Discord link:', error);
     }
@@ -232,8 +230,7 @@ function openDiscord() {
 
 // Check for updates
 async function checkForUpdates() {
-    console.log('Update button clicked!');
-    const updateBtn = $('update-btn');
+    const updateBtn = document.querySelector('#update-btn');
     const originalText = updateBtn.innerHTML;
     
     try {
@@ -242,9 +239,7 @@ async function checkForUpdates() {
         updateBtn.classList.add('checking');
         updateBtn.style.pointerEvents = 'none';
         
-        console.log('Starting update check...');
         const result = await window.electron.checkForUpdates();
-        console.log('Update check result:', result);
         
         // Reset button state
         updateBtn.innerHTML = originalText;
