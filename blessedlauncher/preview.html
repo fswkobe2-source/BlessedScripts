@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blessed Scripts Launcher - Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 100%);
+            color: #e6edf3;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: #21262d;
+            border-right: 1px solid #30363d;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            color: #2f81f7;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo p {
+            font-size: 0.875rem;
+            color: #8b949e;
+        }
+
+        .account-section {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .account-section h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #f0f6fc;
+        }
+
+        .account-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .account-item {
+            padding: 0.75rem;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .account-item:hover {
+            background: #1c2128;
+            border-color: #2f81f7;
+        }
+
+        .account-item.selected {
+            background: #0969da;
+            border-color: #0969da;
+        }
+
+        .account-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .account-id {
+            font-size: 0.75rem;
+            color: #8b949e;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem;
+        }
+
+        .header {
+            margin-bottom: 2rem;
+        }
+
+        .header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #8b949e;
+        }
+
+        .client-config {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #e6edf3;
+            font-size: 0.875rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2f81f7;
+            box-shadow: 0 0 0 3px rgba(47, 129, 247, 0.1);
+        }
+
+        .actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: #2f81f7;
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #1f6feb;
+        }
+
+        .btn-secondary {
+            background: #21262d;
+            color: #e6edf3;
+            border: 1px solid #30363d;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #30363d;
+        }
+
+        .btn-danger {
+            background: #da3633;
+            color: white;
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: #b91c1c;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .status {
+            padding: 1rem;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .status.success {
+            border-color: #238636;
+            background: rgba(35, 134, 54, 0.1);
+        }
+
+        .status.error {
+            border-color: #da3633;
+            background: rgba(218, 54, 51, 0.1);
+        }
+
+        .no-accounts {
+            text-align: center;
+            padding: 2rem;
+            color: #8b949e;
+        }
+
+        .window-controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .window-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .window-btn.close {
+            background: #ff5f56;
+        }
+
+        .window-btn.minimize {
+            background: #ffbd2e;
+        }
+    </style>
+</head>
+<body>
+    <div class="window-controls">
+        <div class="window-btn minimize"></div>
+        <div class="window-btn close"></div>
+    </div>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>Blessed Scripts</h1>
+                <p>OSRS Botting Client</p>
+            </div>
+            
+            <div class="account-section">
+                <h3>Jagex Accounts</h3>
+                <div class="account-list">
+                    <div class="account-item selected">
+                        <div class="account-name">Player One</div>
+                        <div class="account-id">player123</div>
+                    </div>
+                    <div class="account-item">
+                        <div class="account-name">Player Two</div>
+                        <div class="account-id">player456</div>
+                    </div>
+                    <div class="account-item">
+                        <div class="account-name">Player Three</div>
+                        <div class="account-id">player789</div>
+                    </div>
+                </div>
+                
+                <div class="btn-group" style="margin-top: 1rem;">
+                    <button class="btn btn-secondary">Refresh</button>
+                    <button class="btn btn-danger">Remove All</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="header">
+                <h2>Launch Configuration</h2>
+                <p>Select a Jagex account and configure client settings</p>
+            </div>
+
+            <div class="client-config">
+                <div class="form-group">
+                    <label for="client-path">Blessed Scripts Client (.jar)</label>
+                    <input type="file" id="client-path" accept=".jar" />
+                </div>
+
+                <div class="form-group">
+                    <label for="ram-allocation">RAM Allocation</label>
+                    <select id="ram-allocation">
+                        <option value="512m">512 MB</option>
+                        <option value="1g" selected>1 GB</option>
+                        <option value="2g">2 GB</option>
+                        <option value="4g">4 GB</option>
+                        <option value="8g">8 GB</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="selected-account">Selected Account</label>
+                    <input type="text" id="selected-account" readonly value="Player One" />
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary">
+                    Launch Blessed Scripts
+                </button>
+                <button class="btn btn-secondary">
+                    Add Jagex Account
+                </button>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
