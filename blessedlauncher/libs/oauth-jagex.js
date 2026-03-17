@@ -629,15 +629,20 @@ async function startAuthFlow() {
                         log.info('Found URL with id_token query parameter.');
                         const idToken = extractIdTokenFromUrl(url);
                         if (idToken) {
+                            log.info('Found id_token in URL, getting session ID...');
                             const sessionId = await getSessionId(idToken);
                             if (sessionId) {
+                                log.info('Session ID received, saving account...');
                                 await writeAccountsToFile(sessionId);
-                                log.info('Account saved successfully.');
+                                log.info('Account saved successfully. Authentication flow completed.');
+                            } else {
+                                log.error('Failed to get session ID from id_token');
                             }
-
-                            log.info('Authentication flow complete. Closing browser.');
-                            success('Authentication successful.');
+                        } else {
+                            log.error('No id_token found in callback URL');
                         }
+                        log.info('Authentication flow complete. Closing browser.');
+                        success('Authentication successful.');
                     }
                     // Handle initial authorization step
                     else if (url.includes('code=') && !url.includes('locale?')) {
