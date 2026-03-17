@@ -74,7 +74,7 @@
       "signDlls": false,
       "publisherName": "Blessed Scripts",
       "requestedExecutionLevel": "asInvoker",
-      "artifactName": "Blessed-Scripts-Launcher-Setup-${version}.exe"
+      "artifactName": "Blessed Scripts Launcher Setup ${version}.exe"
     },
     "nsis": {
       "oneClick": true,
@@ -96,7 +96,7 @@
       "guid": "com.blessedscripts.launcher",
       "runAfterFinish": true,
       "menuCategory": "Blessed Scripts",
-      "artifactName": "${productName} Setup ${version}.${ext}"
+      "artifactName": "Blessed Scripts Launcher Setup ${version}.exe"
     }
   }
 }
