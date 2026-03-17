@@ -75,11 +75,17 @@ function updateAccountList() {
     const loadingEl = $('accounts-loading');
     const noAccountsEl = $('no-accounts');
     
-    loadingEl.classList.add('hidden');
-    noAccountsEl.classList.add('hidden');
+    if (loadingEl) {
+        loadingEl.classList.add('hidden');
+    }
+    if (noAccountsEl) {
+        noAccountsEl.classList.add('hidden');
+    }
     
     if (accounts.length === 0) {
-        noAccountsEl.classList.remove('hidden');
+        if (noAccountsEl) {
+            noAccountsEl.classList.remove('hidden');
+        }
         return;
     }
     
@@ -92,16 +98,23 @@ function updateAccountList() {
         </div>
     `).join('');
     
-    accountListEl.innerHTML = accountsHtml;
+    if (accountListEl) {
+        accountListEl.innerHTML = accountsHtml;
+    }
 }
 
 function selectAccount(accountId) {
     selectedAccount = accounts.find(acc => acc.accountId === accountId);
     
     // Update UI selection
-    document.querySelectorAll('.account-item').forEach(item => {
-        item.classList.remove('selected');
-    });
+    const allAccountItems = document.querySelectorAll('.account-item');
+    if (allAccountItems) {
+        allAccountItems.forEach(item => {
+            if (item) {
+                item.classList.remove('selected');
+            }
+        });
+    }
     
     const selectedItem = document.querySelector(`[data-account-id="${accountId}"]`);
     if (selectedItem) {
@@ -111,12 +124,22 @@ function selectAccount(accountId) {
     // Update selected account display
     const selectedAccountEl = $('selected-account');
     if (selectedAccount) {
-        selectedAccountEl.value = selectedAccount.displayName || selectedAccount.accountId;
+        if (selectedAccountEl) {
+            selectedAccountEl.value = selectedAccount.displayName || selectedAccount.accountId;
+        }
         // Only enable launch if both account and client are ready
-        $('launch-btn').disabled = !clientFound;
+        const launchBtn = $('launch-btn');
+        if (launchBtn) {
+            launchBtn.disabled = !clientFound;
+        }
     } else {
-        selectedAccountEl.value = '';
-        $('launch-btn').disabled = true;
+        if (selectedAccountEl) {
+            selectedAccountEl.value = '';
+        }
+        const launchBtn = $('launch-btn');
+        if (launchBtn) {
+            launchBtn.disabled = true;
+        }
     }
 }
 
