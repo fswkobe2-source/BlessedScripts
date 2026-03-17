@@ -1,11 +1,12 @@
 const { chromium } = require('patchright');
 const { execSync } = require('child_process');
+const axios = require('axios');
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const crypto = require('crypto');
-const axios = require('axios');
-const fsPromises = require('fs').promises;
+const { spawn } = require('child_process');
+const { execSync } = require('child_process');
 const log = require('electron-log');
 
 const userHome = process.env.HOME || process.env.USERPROFILE;
@@ -477,32 +478,79 @@ async function startAuthFlow() {
 
         try {
             // Check if Patchright Chromium exists and install synchronously if needed
-            const chromiumPath = path.join(
-                os.homedir(),
-                'AppData', 'Local', 'ms-playwright'
-            );
+            log.info('Checking for Patchright Chromium installation...');
+            
+            // Try multiple possible paths for chromium
+            const possiblePaths = [
+                path.join(os.homedir(), 'AppData', 'Local', 'ms-playwright'),
+                path.join(os.homedir(), '.cache', 'ms-playwright'),
+                path.join(__dirname, 'node_modules', 'playwright'),
+                path.join(os.tmpdir(), 'ms-playwright')
+            ];
 
             let chromiumExists = false;
-            try {
-                chromiumExists = fs.existsSync(chromiumPath) && 
-                    fs.readdirSync(chromiumPath).some(f => f.startsWith('chromium'));
-            } catch (error) {
-                log.warn('Error checking chromium path:', error.message);
+            let chromiumPath = null;
+
+            for (const checkPath of possiblePaths) {
+                try {
+                    if (fs.existsSync(checkPath)) {
+                        const files = fs.readdirSync(checkPath);
+                        const chromiumFile = files.find(f => f.includes('chromium'));
+                        if (chromiumFile) {
+                            chromiumPath = checkPath;
+                            chromiumExists = true;
+                            log.info(`Found Chromium at: ${checkPath}`);
+                            break;
+                        }
+                    }
+                } catch (error) {
+                    log.warn(`Error checking path ${checkPath}:`, error.message);
+                }
             }
 
             if (!chromiumExists) {
-                log.info('Patchright Chromium not found, installing synchronously...');
+                log.info('Patchright Chromium not found in any location, installing synchronously...');
                 
                 try {
-                    execSync('npx patchright install chromium', { 
-                        timeout: 120000,
-                        stdio: 'pipe',
-                        cwd: __dirname
-                    });
-                    log.info('Patchright Chromium installation completed successfully');
+                    // Try multiple installation methods
+                    const installCommands = [
+                        'npx patchright install chromium',
+                        'npx playwright install chromium',
+                        'npm install patchright && npx patchright install chromium'
+                    ];
+
+                    for (const command of installCommands) {
+                        try {
+                            log.info(`Trying installation command: ${command}`);
+                            execSync(command, { 
+                                timeout: 180000, // 3 minutes
+                                stdio: 'pipe',
+                                cwd: __dirname,
+                                env: {
+                                    ...process.env,
+                                    NODE_ENV: 'production'
+                                }
+                            });
+                            log.info('Patchright Chromium installation completed successfully');
+                            break;
+                        } catch (installError) {
+                            log.warn(`Installation command failed: ${command}`, installError.message);
+                            if (command === installCommands[installCommands.length - 1]) {
+                                // Last attempt failed
+                                throw installError;
+                            }
+                        }
+                    }
                 } catch (error) {
                     log.error('Patchright installation failed:', error.message);
-                    fail(new Error('Browser setup failed. Please run: npx patchright install chromium in your terminal and try again.'));
+                    log.error('Installation error details:', {
+                        name: error.name,
+                        message: error.message,
+                        stack: error.stack,
+                        code: error.code,
+                        signal: error.signal
+                    });
+                    fail(new Error(`Browser setup failed. Please manually run: npx patchright install chromium. Error: ${error.message}`));
                     return;
                 }
             }

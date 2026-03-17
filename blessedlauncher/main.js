@@ -25,13 +25,32 @@ if (!fs.existsSync(blessedScriptsDir)) {
 // Function to check if Patchright browsers are installed
 async function checkPatchrightBrowsers() {
     try {
+        log.info('Checking for Patchright browsers...');
         const { chromium } = require('patchright');
-        // Try to get the executable path to verify browsers are installed
+        
+        // Try to get executable path to verify browsers are installed
         const executablePath = chromium.executablePath();
-        log.info('Patchright browsers are installed');
+        if (!executablePath) {
+            log.error('Patchright executable path is null or undefined');
+            return false;
+        }
+        
+        // Check if the executable actually exists
+        if (!fs.existsSync(executablePath)) {
+            log.error(`Patchright executable not found at: ${executablePath}`);
+            return false;
+        }
+        
+        log.info(`Patchright browsers are installed at: ${executablePath}`);
         return true;
     } catch (error) {
         log.error('Patchright browsers not found:', error.message);
+        log.error('Full error details:', {
+            name: error.name,
+            message: error.message,
+            stack: error.stack,
+            code: error.code
+        });
         return false;
     }
 }
