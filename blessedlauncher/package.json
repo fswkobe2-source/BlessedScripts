@@ -54,6 +54,27 @@
         "filter": [
           "**/*"
         ]
+      },
+      {
+        "from": "../runelite-client/build/libs/client-1.12.20-sources.jar",
+        "to": "client-1.12.20-sources.jar",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "../runelite-client/build/libs/client-1.12.20.jar",
+        "to": "client-1.12.20.jar",
+        "filter": [
+          "**/*"
+        ]
+      },
+      {
+        "from": "../runelite-client/build/libs/microbot-2.1.25.jar",
+        "to": "microbot-2.1.25.jar",
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "publish": {
