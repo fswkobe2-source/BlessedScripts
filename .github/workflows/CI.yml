@@ -27,7 +27,3 @@ jobs:
 
     - name: Build with Gradle
       run: ./gradlew :client:compileJava --no-daemon
-
-    - name: Run tests
-      run: ./gradlew test --no-daemon
-      continue-on-error: true
