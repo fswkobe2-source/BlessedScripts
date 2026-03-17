@@ -763,12 +763,6 @@ function refreshAccounts() {
     loadAccounts();
 }
         
-        // Initialize accounts on startup
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('DOM fully loaded, initializing accounts...');
-            loadAccounts();
-        });
-        
         // Check for updates silently
         setTimeout(async () => {
             try {
