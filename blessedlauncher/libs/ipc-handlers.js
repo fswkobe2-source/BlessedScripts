@@ -204,17 +204,6 @@ module.exports = async function (deps) {
         }
     });
 
-    ipcMain.handle('client-exists', async (event, clientPath) => {
-        try {
-            const exists = fs.existsSync(clientPath);
-            log.info(`Client existence check for ${clientPath}: ${exists}`);
-            return { exists };
-        } catch (error) {
-            log.error(`Error checking client existence: ${error.message}`);
-            return { error: error.message };
-        }
-    });
-
     ipcMain.handle('open-client', async (event, account, clientPath, ramPreference) => {
         try {
             log.info(`Launching client with account: ${account.displayName || account.accountId}`);
