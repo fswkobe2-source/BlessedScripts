@@ -378,6 +378,9 @@ async function writeAccountsToFile(sessionId) {
             const allAccounts = [...existingAccounts, ...nonDuplicateNewAccounts];
             await fs.writeFile(ACCOUNTS_FILE_PATH, JSON.stringify(allAccounts, null, 2));
             log.info(`Successfully wrote ${nonDuplicateNewAccounts.length} new account(s) to ${ACCOUNTS_FILE_PATH}`);
+            
+            // Force a small delay to ensure file is written before reading
+            await new Promise(resolve => setTimeout(resolve, 100));
         } else {
             log.info('No new accounts to add.');
         }
