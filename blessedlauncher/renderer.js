@@ -330,7 +330,11 @@ async function checkForUpdates() {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    loadAccounts();
+    // Wait for IPC handlers to be ready before loading accounts
+    setTimeout(() => {
+        loadAccounts();
+    }, 1000);
+    
     findBlessedScriptsClient();
     showTab('scripts'); // Show scripts tab by default
     
