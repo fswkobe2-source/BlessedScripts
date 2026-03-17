@@ -509,45 +509,73 @@ function loadAccounts() {
             accounts = [];
         }
         
-        loadingElement.style.display = 'none';
+        const statusEl = document.getElementById('status-message');
+        if (statusEl) {
+            statusEl.textContent = 'Accounts loaded successfully';
+            statusEl.className = 'status success';
+            statusEl.classList.remove('hidden');
+        }
         
-        console.log('Total accounts to display:', accounts.length);
+        const loadingEl = document.getElementById('accounts-loading');
+        const noAccountsEl = document.getElementById('no-accounts');
+        if (loadingEl) {
+            loadingEl.classList.add('hidden');
+        }
+        if (noAccountsEl) {
+            noAccountsEl.classList.add('hidden');
+        }
         
-        if (accounts.length > 0) {
-            accountList.innerHTML = '';
+        if (accounts.length === 0) {
+            if (noAccountsEl) {
+                noAccountsEl.classList.remove('hidden');
+            }
+            return;
+        }
+        
+        // Update UI
+        accountList.innerHTML = '';
+        if (accountList) {
             accountList.style.display = 'block';
             
             accounts.forEach((account, index) => {
                 const accountItem = document.createElement('div');
-                accountItem.className = 'account-item';
-                if (selectedAccount && selectedAccount.id === account.id) {
-                    accountItem.classList.add('selected');
+                if (accountItem) {
+                    accountItem.className = 'account-item';
+                    if (selectedAccount && selectedAccount.id === account.id) {
+                        accountItem.classList.add('selected');
+                    }
+                    
+                    // Use multiple possible fields for display name
+                    const displayName = account.displayName || account.username || account.name || account.accountId || 'Unknown Account';
+                    const accountId = account.accountId || account.id || 'Unknown ID';
+                    
+                    accountItem.innerHTML = `
+                        <div onclick="selectAccount('${account.id}')" style="flex: 1; cursor: pointer;">
+                            <div class="account-name">${displayName}</div>
+                            <div class="account-id">${accountId}</div>
+                        </div>
+                        <button class="btn btn-danger" onclick="showRemoveAccountConfirmation('${account.id}', '${displayName}')" style="margin-left: 1rem;">🗑</button>
+                    `;
+                    accountList.appendChild(accountItem);
                 }
-                
-                // Use multiple possible fields for display name
-                const displayName = account.displayName || account.username || account.name || account.accountId || 'Unknown Account';
-                const accountId = account.accountId || account.id || 'Unknown ID';
-                
-                console.log(`Displaying account: ${displayName} (${accountId})`);
-                
-                accountItem.innerHTML = `
-                    <div onclick="selectAccount('${account.id}')" style="flex: 1; cursor: pointer;">
-                        <div class="account-name">${displayName}</div>
-                        <div class="account-id">${accountId}</div>
-                    </div>
-                    <button class="btn btn-danger" onclick="showRemoveAccountConfirmation('${account.id}', '${displayName}')" style="margin-left: 1rem;">🗑</button>
-                `;
-                accountList.appendChild(accountItem);
             });
-        } else {
-            console.log('No accounts to display');
-            noAccountsElement.style.display = 'block';
-            accountList.style.display = 'none';
+        }
+        
+        // Update UI selection
+        const selectedItem = document.querySelector(`[data-account-id="${selectedAccount && selectedAccount.id}"]`);
+        if (selectedItem) {
+            selectedItem.classList.add('selected');
         }
         
         updateSelectedAccountDisplay();
     } catch (error) {
         console.error('Failed to load accounts:', error);
+        const statusEl = document.getElementById('status-message');
+        if (statusEl) {
+            statusEl.textContent = 'Failed to load accounts';
+            statusEl.className = 'status error';
+            statusEl.classList.remove('hidden');
+        }
         loadingElement.style.display = 'none';
         noAccountsElement.style.display = 'block';
         accountList.style.display = 'none';
