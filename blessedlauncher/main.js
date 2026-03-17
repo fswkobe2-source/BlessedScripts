@@ -492,14 +492,20 @@ function loadAccounts() {
     
     try {
         const accountsPath = path.join(process.env.HOME || process.env.USERPROFILE, '.blessedscripts', 'accounts.json');
+        console.log('Loading accounts from:', accountsPath);
+        
         if (fs.existsSync(accountsPath)) {
             const accountsData = fs.readFileSync(accountsPath, 'utf8');
             accounts = JSON.parse(accountsData);
+            console.log('Parsed accounts:', accounts);
         } else {
+            console.log('Accounts file does not exist');
             accounts = [];
         }
         
         loadingElement.style.display = 'none';
+        
+        console.log('Total accounts to display:', accounts.length);
         
         if (accounts.length > 0) {
             accountList.innerHTML = '';
@@ -512,16 +518,23 @@ function loadAccounts() {
                     accountItem.classList.add('selected');
                 }
                 
+                // Use multiple possible fields for display name
+                const displayName = account.displayName || account.username || account.name || account.accountId || 'Unknown Account';
+                const accountId = account.accountId || account.id || 'Unknown ID';
+                
+                console.log(`Displaying account: ${displayName} (${accountId})`);
+                
                 accountItem.innerHTML = `
                     <div onclick="selectAccount('${account.id}')" style="flex: 1; cursor: pointer;">
-                        <div class="account-name">${account.displayName || account.username}</div>
-                        <div class="account-id">${account.id}</div>
+                        <div class="account-name">${displayName}</div>
+                        <div class="account-id">${accountId}</div>
                     </div>
-                    <button class="btn btn-danger" onclick="showRemoveAccountConfirmation('${account.id}', '${account.displayName || account.username}')" style="margin-left: 1rem;">🗑</button>
+                    <button class="btn btn-danger" onclick="showRemoveAccountConfirmation('${account.id}', '${displayName}')" style="margin-left: 1rem;">🗑</button>
                 `;
                 accountList.appendChild(accountItem);
             });
         } else {
+            console.log('No accounts to display');
             noAccountsElement.style.display = 'block';
             accountList.style.display = 'none';
         }
@@ -531,7 +544,7 @@ function loadAccounts() {
         console.error('Failed to load accounts:', error);
         loadingElement.style.display = 'none';
         noAccountsElement.style.display = 'block';
-        noAccountsElement.innerHTML = '<p>Failed to load accounts</p>';
+        accountList.style.display = 'none';
     }
 }
 

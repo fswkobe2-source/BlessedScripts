@@ -353,11 +353,16 @@ async function writeAccountsToFile(sessionId) {
             }
         );
 
+        log.info('Accounts API response:', JSON.stringify(response.data, null, 2));
+
         const newAccounts = response.data.map((acc) => ({
             ...acc,
             sessionId,
-            createdOn: new Date().toISOString()
+            createdOn: new Date().toISOString(),
+            id: acc.accountId || acc.id || acc.displayName || `account_${Date.now()}`
         }));
+
+        log.info('Processed accounts for saving:', JSON.stringify(newAccounts, null, 2));
 
         await fs.mkdir(ACCOUNTS_DIR, { recursive: true });
 
@@ -365,19 +370,23 @@ async function writeAccountsToFile(sessionId) {
         try {
             const fileContent = await fs.readFile(ACCOUNTS_FILE_PATH, 'utf-8');
             existingAccounts = JSON.parse(fileContent);
+            log.info(`Existing accounts loaded: ${existingAccounts.length} accounts`);
         } catch (e) {
             if (e.code !== 'ENOENT') {
                 log.error(`Error reading existing accounts file: ${e}`);
+            } else {
+                log.info('No existing accounts file found, starting fresh');
             }
         }
 
-        const existingAccountIds = new Set(existingAccounts.map((acc) => acc.accountId));
-        const nonDuplicateNewAccounts = newAccounts.filter((acc) => !existingAccountIds.has(acc.accountId));
+        const existingAccountIds = new Set(existingAccounts.map((acc) => acc.accountId || acc.id));
+        const nonDuplicateNewAccounts = newAccounts.filter((acc) => !existingAccountIds.has(acc.accountId || acc.id));
 
         if (nonDuplicateNewAccounts.length > 0) {
             const allAccounts = [...existingAccounts, ...nonDuplicateNewAccounts];
             await fs.writeFile(ACCOUNTS_FILE_PATH, JSON.stringify(allAccounts, null, 2));
             log.info(`Successfully wrote ${nonDuplicateNewAccounts.length} new account(s) to ${ACCOUNTS_FILE_PATH}`);
+            log.info(`Total accounts in file: ${allAccounts.length}`);
             
             // Force a small delay to ensure file is written before reading
             await new Promise(resolve => setTimeout(resolve, 100));
@@ -386,6 +395,7 @@ async function writeAccountsToFile(sessionId) {
         }
     } catch (error) {
         log.error(`Error writing accounts to file: ${error.message}`);
+        log.error(`Full error details:`, error);
     }
 }
 
