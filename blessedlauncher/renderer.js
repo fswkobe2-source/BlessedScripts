@@ -334,12 +334,24 @@ async function checkForUpdates() {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded fired');
+    
     // Wait for IPC handlers to be ready before loading accounts
     setTimeout(() => {
+        console.log('Loading accounts after delay...');
         loadAccounts();
     }, 1000);
     
+    // Call client detection immediately and also after delay
+    console.log('Calling findBlessedScriptsClient immediately...');
     findBlessedScriptsClient();
+    
+    // Also try after a delay in case there are timing issues
+    setTimeout(() => {
+        console.log('Calling findBlessedScriptsClient after delay...');
+        findBlessedScriptsClient();
+    }, 2000);
+    
     showTab('scripts'); // Show scripts tab by default
     
     // Set up modal listeners
