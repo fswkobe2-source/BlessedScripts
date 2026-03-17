@@ -1,5 +1,5 @@
 module.exports = async function (deps) {
-    const { ipcMain, axios, blessedScriptsDir, path, log, dialog, fs, app, shell } = deps;
+    const { ipcMain, axios, blessedScriptsDir, path, log, dialog, fs, app, mainWindow, shell } = deps;
 
     // OAuth Authentication Handler
     const { startAuthFlow } = require(path.join(__dirname, 'oauth-jagex.js'));
@@ -49,47 +49,34 @@ module.exports = async function (deps) {
     ipcMain.handle('remove-accounts', async () => {
         try {
             if (fs.existsSync(filePath)) {
-                fs.unlinkSync(filePath);
+                fs.writeFileSync(filePath, '[]', 'utf8');
                 log.info('All accounts removed successfully');
+                return { success: true };
+            } else {
+                log.info('Accounts file does not exist, nothing to remove');
+                return { success: true };
             }
-            return { success: true };
         } catch (error) {
-            log.error(error.message);
+            log.error(`Error removing accounts: ${error.message}`);
             return { error: error.message };
         }
     });
 
     ipcMain.handle('delete-account', async (event, accountId) => {
         try {
-            if (!accountId) {
-                return { error: 'Invalid account id' };
+            if (fs.existsSync(filePath)) {
+                const data = fs.readFileSync(filePath, 'utf8');
+                let accounts = JSON.parse(data);
+                accounts = accounts.filter(acc => acc.id !== accountId);
+                fs.writeFileSync(filePath, JSON.stringify(accounts, null, 2));
+                log.info(`Account ${accountId} removed successfully`);
+                return { success: true };
+            } else {
+                log.info('Accounts file does not exist, nothing to remove');
+                return { success: true };
             }
-
-            if (!fs.existsSync(filePath)) {
-                return { error: 'Accounts file does not exist' };
-            }
-
-            const data = fs.readFileSync(filePath, 'utf8');
-            let accounts = [];
-
-            try {
-                accounts = JSON.parse(data);
-            } catch (parseError) {
-                log.error(parseError.message);
-                return { error: 'Accounts file is corrupted or unreadable' };
-            }
-
-            const updatedAccounts = accounts.filter((account) => account.accountId !== accountId);
-
-            if (updatedAccounts.length === accounts.length) {
-                return { error: 'Account not found' };
-            }
-
-            fs.writeFileSync(filePath, JSON.stringify(updatedAccounts, null, 2));
-            log.info(`Account ${accountId} deleted successfully`);
-            return { success: true };
         } catch (error) {
-            log.error(error.message);
+            log.error(`Error deleting account: ${error.message}`);
             return { error: error.message };
         }
     });
@@ -183,6 +170,94 @@ module.exports = async function (deps) {
     // Client Management Handlers
     const clientExecutorHandler = require(path.join(__dirname, 'client-executor.js'));
     await clientExecutorHandler(deps);
+
+    ipcMain.handle('get-bundled-client-path', async () => {
+        try {
+            const clientPath = path.join(__dirname, '..', 'runelite-client', 'build', 'libs', 'BlessedScripts-2.1.25.jar');
+            if (fs.existsSync(clientPath)) {
+                log.info(`Bundled client found at: ${clientPath}`);
+                return { path: clientPath, exists: true };
+            } else {
+                log.info('Bundled client not found at expected path');
+                return { path: clientPath, exists: false };
+            }
+        } catch (error) {
+            log.error(`Error checking bundled client: ${error.message}`);
+            return { error: error.message };
+        }
+    });
+
+    ipcMain.handle('get-dev-client-path', async () => {
+        try {
+            const clientPath = path.join(__dirname, '..', 'runelite-client', 'build', 'libs', 'BlessedScripts-2.1.25.jar');
+            if (fs.existsSync(clientPath)) {
+                log.info(`Development client found at: ${clientPath}`);
+                return { path: clientPath, exists: true };
+            } else {
+                log.info('Development client not found at expected path');
+                return { path: clientPath, exists: false };
+            }
+        } catch (error) {
+            log.error(`Error checking development client: ${error.message}`);
+            return { error: error.message };
+        }
+    });
+
+    ipcMain.handle('client-exists', async (event, clientPath) => {
+        try {
+            const exists = fs.existsSync(clientPath);
+            log.info(`Client existence check for ${clientPath}: ${exists}`);
+            return { exists };
+        } catch (error) {
+            log.error(`Error checking client existence: ${error.message}`);
+            return { error: error.message };
+        }
+    });
+
+    ipcMain.handle('open-client', async (event, account, clientPath, ramPreference) => {
+        try {
+            log.info(`Launching client with account: ${account.displayName || account.accountId}`);
+            log.info(`Client path: ${clientPath}`);
+            log.info(`RAM preference: ${ramPreference}`);
+            
+            // Check if client exists before launching
+            if (!fs.existsSync(clientPath)) {
+                const result = await dialog.showMessageBox(mainWindow, {
+                    type: 'error',
+                    title: 'Client Not Found',
+                    message: `BlessedScripts client not found at: ${clientPath}\n\nPlease ensure the client is built and bundled correctly in the installer.`,
+                    buttons: ['OK']
+                });
+                return { error: 'Client not found' };
+            }
+            
+            // Launch the client with the account and RAM preference
+            const { spawn } = require('child_process');
+            const clientProcess = spawn('java', [
+                '-jar',
+                clientPath,
+                '-Djava.awt.headless=false',
+                '-Drunelite.session=' + account.sessionId,
+                '-Drunelite.account=' + account.accountId,
+                '-Drunelite.display=' + (account.displayName || account.accountId),
+                '-Xmx' + ramPreference.replace('g', 'G')
+            ], {
+                detached: true,
+                stdio: ['pipe', 'pipe', 'ignore']
+            });
+
+            // Return the process ID and other info
+            return {
+                pid: clientProcess.pid,
+                account: account,
+                clientPath: clientPath,
+                ramPreference: ramPreference
+            };
+        } catch (error) {
+            log.error(`Failed to launch client: ${error.message}`);
+            return { error: error.message };
+        }
+    });
 
     // Window Management Handlers
     ipcMain.handle('close-launcher', async () => {
