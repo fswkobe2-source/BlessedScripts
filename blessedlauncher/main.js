@@ -444,30 +444,186 @@ async function createWindow() {
             }
         }
         
-        // Remove All confirmation functions
-        function showRemoveAllConfirmation() {
-            const modal = document.getElementById('confirm-dialog');
-            modal.classList.add('show');
+        // Account Management System
+let accounts = [];
+let selectedAccount = null;
+
+// Load accounts from storage
+function loadAccounts() {
+    const accountList = document.getElementById('account-list');
+    const loadingElement = document.getElementById('accounts-loading');
+    const noAccountsElement = document.getElementById('no-accounts');
+    
+    // Show loading
+    accountList.style.display = 'none';
+    loadingElement.style.display = 'block';
+    noAccountsElement.style.display = 'none';
+    
+    try {
+        const accountsPath = path.join(process.env.HOME || process.env.USERPROFILE, '.blessedscripts', 'accounts.json');
+        if (fs.existsSync(accountsPath)) {
+            const accountsData = fs.readFileSync(accountsPath, 'utf8');
+            accounts = JSON.parse(accountsData);
+        } else {
+            accounts = [];
         }
         
-        function confirmRemoveAll() {
-            // Remove all accounts and refresh UI
-            const accountList = document.getElementById('account-list');
-            accountList.innerHTML = '<div class="no-accounts"><p>All accounts removed</p></div>';
-            hideRemoveAllModal();
-            // UI is already refreshed by clearing the list
+        loadingElement.style.display = 'none';
+        
+        if (accounts.length > 0) {
+            accountList.innerHTML = '';
+            accountList.style.display = 'block';
+            
+            accounts.forEach((account, index) => {
+                const accountItem = document.createElement('div');
+                accountItem.className = 'account-item';
+                if (selectedAccount && selectedAccount.id === account.id) {
+                    accountItem.classList.add('selected');
+                }
+                
+                accountItem.innerHTML = `
+                    <div onclick="selectAccount('${account.id}')" style="flex: 1; cursor: pointer;">
+                        <div class="account-name">${account.displayName || account.username}</div>
+                        <div class="account-id">${account.id}</div>
+                    </div>
+                    <button class="btn btn-danger" onclick="showRemoveAccountConfirmation('${account.id}', '${account.displayName || account.username}')" style="margin-left: 1rem;">🗑</button>
+                `;
+                accountList.appendChild(accountItem);
+            });
+        } else {
+            noAccountsElement.style.display = 'block';
+            accountList.style.display = 'none';
         }
         
-        function cancelRemoveAll() {
-            hideRemoveAllModal();
-        }
+        updateSelectedAccountDisplay();
+    } catch (error) {
+        console.error('Failed to load accounts:', error);
+        loadingElement.style.display = 'none';
+        noAccountsElement.style.display = 'block';
+        noAccountsElement.innerHTML = '<p>Failed to load accounts</p>';
+    }
+}
+
+// Save accounts to storage
+function saveAccounts() {
+    try {
+        const accountsPath = path.join(process.env.HOME || process.env.USERPROFILE, '.blessedscripts', 'accounts.json');
+        const accountsData = JSON.stringify(accounts, null, 2);
+        fs.writeFileSync(accountsPath, accountsData, 'utf8');
+    } catch (error) {
+        console.error('Failed to save accounts:', error);
+    }
+}
+
+// Select account
+function selectAccount(accountId) {
+    selectedAccount = accounts.find(acc => acc.id === accountId);
+    updateSelectedAccountDisplay();
+    
+    // Update UI selection
+    document.querySelectorAll('.account-item').forEach(item => {
+        item.classList.remove('selected');
+    });
+    event.currentTarget.classList.add('selected');
+}
+
+// Update selected account display
+function updateSelectedAccountDisplay() {
+    const selectedAccountInput = document.getElementById('selected-account');
+    const launchBtn = document.getElementById('launch-btn');
+    
+    if (selectedAccount) {
+        selectedAccountInput.value = selectedAccount.displayName || selectedAccount.username;
+        launchBtn.disabled = false;
+    } else {
+        selectedAccountInput.value = '';
+        launchBtn.disabled = true;
+    }
+}
+
+// Remove All confirmation functions
+function showRemoveAllConfirmation() {
+    const modal = document.getElementById('confirm-dialog');
+    const titleElement = modal.querySelector('.confirm-title');
+    const messageElement = modal.querySelector('.confirm-message');
+    const buttonsElement = modal.querySelector('.confirm-buttons');
+    
+    titleElement.textContent = 'Remove All Accounts';
+    messageElement.textContent = 'Are you sure you want to remove ALL accounts? This cannot be undone.';
+    buttonsElement.innerHTML = '<button class="btn-confirm-danger" onclick="confirmRemoveAll()">Yes, Remove All</button><button class="btn-cancel" onclick="cancelRemoveAll()">Cancel</button>';
+    modal.classList.add('show');
+}
+
+function confirmRemoveAll() {
+    // Clear accounts array
+    accounts = [];
+    selectedAccount = null;
+    
+    // Save to storage
+    saveAccounts();
+    
+    // Refresh UI immediately
+    loadAccounts();
+    hideRemoveAllModal();
+}
+
+function cancelRemoveAll() {
+    hideRemoveAllModal();
+}
+
+function hideRemoveAllModal() {
+    const modal = document.getElementById('confirm-dialog');
+    modal.classList.remove('show');
+}
+
+// Individual account removal
+function showRemoveAccountConfirmation(accountId, accountName) {
+    const modal = document.getElementById('confirm-dialog');
+    const titleElement = modal.querySelector('.confirm-title');
+    const messageElement = modal.querySelector('.confirm-message');
+    const buttonsElement = modal.querySelector('.confirm-buttons');
+    
+    titleElement.textContent = 'Remove Account';
+    messageElement.textContent = `Remove ${accountName} from the launcher?`;
+    buttonsElement.innerHTML = `<button class="btn-confirm-danger" onclick="confirmRemoveAccount('${accountId}')">Yes, Remove</button><button class="btn-cancel" onclick="cancelRemoveAccount()">Cancel</button>`;
+    modal.classList.add('show');
+}
+
+function confirmRemoveAccount(accountId) {
+    // Remove account from array
+    accounts = accounts.filter(acc => acc.id !== accountId);
+    
+    // If removed account was selected, clear selection
+    if (selectedAccount && selectedAccount.id === accountId) {
+        selectedAccount = null;
+    }
+    
+    // Save to storage
+    saveAccounts();
+    
+    // Refresh UI immediately
+    loadAccounts();
+    hideRemoveAccountModal();
+}
+
+function cancelRemoveAccount() {
+    hideRemoveAccountModal();
+}
+
+function hideRemoveAccountModal() {
+    const modal = document.getElementById('confirm-dialog');
+    modal.classList.remove('show');
+}
+
+// Refresh accounts
+function refreshAccounts() {
+    loadAccounts();
+}
         
-        function hideRemoveAllModal() {
-            const modal = document.getElementById('confirm-dialog');
-            modal.classList.remove('show');
-        }
+        showTab('accounts');
         
-        showTab('scripts');
+        // Initialize accounts on startup
+        loadAccounts();
         
         // Check for updates silently
         setTimeout(async () => {
