@@ -172,83 +172,6 @@ module.exports = async function (deps) {
     const clientExecutorHandler = require(path.join(__dirname, 'client-executor.js'));
     await clientExecutorHandler(deps);
 
-    ipcMain.handle('get-bundled-client-path', async () => {
-        try {
-            const clientPath = path.join(__dirname, '..', 'runelite-client', 'build', 'libs', 'BlessedScripts-2.1.25.jar');
-            if (fs.existsSync(clientPath)) {
-                log.info(`Bundled client found at: ${clientPath}`);
-                return { path: clientPath, exists: true };
-            } else {
-                log.info('Bundled client not found at expected path');
-                return { path: clientPath, exists: false };
-            }
-        } catch (error) {
-            log.error(`Error checking bundled client: ${error.message}`);
-            return { error: error.message };
-        }
-    });
-
-    ipcMain.handle('get-dev-client-path', async () => {
-        try {
-            const clientPath = path.join(__dirname, '..', 'runelite-client', 'build', 'libs', 'BlessedScripts-2.1.25.jar');
-            if (fs.existsSync(clientPath)) {
-                log.info(`Development client found at: ${clientPath}`);
-                return { path: clientPath, exists: true };
-            } else {
-                log.info('Development client not found at expected path');
-                return { path: clientPath, exists: false };
-            }
-        } catch (error) {
-            log.error(`Error checking development client: ${error.message}`);
-            return { error: error.message };
-        }
-    });
-
-    ipcMain.handle('open-client', async (event, account, clientPath, ramPreference) => {
-        try {
-            log.info(`Launching client with account: ${account.displayName || account.accountId}`);
-            log.info(`Client path: ${clientPath}`);
-            log.info(`RAM preference: ${ramPreference}`);
-            
-            // Check if client exists before launching
-            if (!fs.existsSync(clientPath)) {
-                const result = await dialog.showMessageBox(mainWindow, {
-                    type: 'error',
-                    title: 'Client Not Found',
-                    message: `BlessedScripts client not found at: ${clientPath}\n\nPlease ensure the client is built and bundled correctly in the installer.`,
-                    buttons: ['OK']
-                });
-                return { error: 'Client not found' };
-            }
-            
-            // Launch the client with the account and RAM preference
-            const { spawn } = require('child_process');
-            const clientProcess = spawn('java', [
-                '-jar',
-                clientPath,
-                '-Djava.awt.headless=false',
-                '-Drunelite.session=' + account.sessionId,
-                '-Drunelite.account=' + account.accountId,
-                '-Drunelite.display=' + (account.displayName || account.accountId),
-                '-Xmx' + ramPreference.replace('g', 'G')
-            ], {
-                detached: true,
-                stdio: ['pipe', 'pipe', 'ignore']
-            });
-
-            // Return the process ID and other info
-            return {
-                pid: clientProcess.pid,
-                account: account,
-                clientPath: clientPath,
-                ramPreference: ramPreference
-            };
-        } catch (error) {
-            log.error(`Failed to launch client: ${error.message}`);
-            return { error: error.message };
-        }
-    });
-
     // Window Management Handlers
     ipcMain.handle('close-launcher', async () => {
         app.quit();
@@ -406,6 +329,6 @@ module.exports = async function (deps) {
             return false;
         }
     });
-};
 
-log.info('IPC handlers loaded successfully');
+    log.info('IPC handlers loaded successfully');
+};
