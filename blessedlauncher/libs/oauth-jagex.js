@@ -1,8 +1,11 @@
 const { chromium } = require('patchright');
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
 const crypto = require('crypto');
 const axios = require('axios');
-const fs = require('fs').promises;
-const path = require('path');
+const fsPromises = require('fs').promises;
 const log = require('electron-log');
 
 const userHome = process.env.HOME || process.env.USERPROFILE;
@@ -415,11 +418,42 @@ async function startAuthFlow() {
         }, 300000);
 
         try {
-            // Ensure Patchright browsers are available synchronously before launching
-            log.info('Ensuring Patchright browsers are available...');
-            await ensurePatchrightBrowsersSync();
-            log.info('Patchright browsers verified and ready.');
+            // Check if Patchright Chromium exists and install synchronously if needed
+            const chromiumPath = path.join(
+                os.homedir(),
+                'AppData', 'Local', 'ms-playwright'
+            );
 
+            let chromiumExists = false;
+            try {
+                chromiumExists = fs.existsSync(chromiumPath) && 
+                    fs.readdirSync(chromiumPath).some(f => f.startsWith('chromium'));
+            } catch (error) {
+                log.warn('Error checking chromium path:', error.message);
+            }
+
+            if (!chromiumExists) {
+                log.info('Patchright Chromium not found, installing synchronously...');
+                
+                // Show loading message to user - this will be handled by the main process
+                // The main process will show the loading modal before calling this function
+                
+                try {
+                    execSync('npx patchright install chromium', { 
+                        timeout: 120000,
+                        stdio: 'pipe',
+                        cwd: __dirname
+                    });
+                    log.info('Patchright Chromium installation completed successfully');
+                } catch (error) {
+                    log.error('Patchright installation failed:', error.message);
+                    fail(new Error('Browser setup failed. Please run: npx patchright install chromium in your terminal and try again.'));
+                    return;
+                }
+            }
+
+            // Now launch browser - Patchright is guaranteed to be installed
+            log.info('Launching Patchright browser...');
             browser = await chromium.launch({
                 headless: false,
                 args: ['--no-sandbox', '--disable-setuid-sandbox']
