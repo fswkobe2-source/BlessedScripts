@@ -145,13 +145,17 @@ async function installPatchrightBrowsers() {
 async function ensurePatchrightBrowsers() {
     const browsersInstalled = await checkPatchrightBrowsers();
     if (!browsersInstalled) {
+        // Show loading modal before installing
+        showLoadingModal('Setting up browser for first time login... Please wait.');
         try {
             await installPatchrightBrowsers();
             log.info('Patchright browsers are now ready');
+            hideLoadingModal();
         } catch (error) {
             log.error('Failed to install Patchright browsers:', error.message);
-            // Don't throw - let the launcher continue but log the error
-            // The OAuth flow will fail gracefully when browsers are needed
+            hideLoadingModal();
+            showErrorModal('Browser setup failed. Please run: npx patchright install chromium');
+            // Don't throw - let the launcher continue but show error
         }
     }
 }
@@ -238,7 +242,7 @@ async function createWindow() {
             }
         }
 
-        // Load scripts list
+        // Load scripts list from catalog
         function loadScriptsList() {
             const scriptsList = document.getElementById('scripts-list');
             const loadingElement = document.getElementById('scripts-loading');
@@ -249,40 +253,48 @@ async function createWindow() {
             loadingElement.style.display = 'block';
             noScriptsElement.style.display = 'none';
             
-            // Simulate script loading (in real implementation, this would call plugin)
-            setTimeout(() => {
-                loadingElement.style.display = 'none';
-                
-                // Simulate loaded scripts
-                const mockScripts = [
-                    { name: 'AutoFighter.java', description: 'Automatically fights NPCs', category: 'Combat' },
-                    { name: 'Woodcutter.java', description: 'Cuts oak trees', category: 'Skilling' },
-                    { name: 'Miner.java', description: 'Mines iron ore', category: 'Skilling' }
-                ];
-                
-                if (mockScripts.length > 0) {
-                    scriptsList.innerHTML = '';
-                    mockScripts.forEach(script => {
-                        const scriptItem = document.createElement('div');
-                        scriptItem.className = 'script-item';
-                        scriptItem.innerHTML = `
-                            <div>
-                                <strong>${script.name}</strong>
-                                <span>${script.description}</span>
-                                <small>[${script.category}]</small>
-                            </div>
-                            <div>
-                                <button class="btn btn-primary" onclick="runScript('${script.name}')">▶ Run</button>
-                                <button class="btn btn-secondary" onclick="deleteScript('${script.name}')">🗑</button>
-                            </div>
-                        `;
-                        scriptsList.appendChild(scriptItem);
-                    });
-                } else {
+            // Fetch scripts from catalog
+            axios.get('https://raw.githubusercontent.com/fswkobe2-source/BlessedScripts/master/scripts/catalog.json')
+                .then(response => {
+                    const scripts = response.data.scripts || [];
+                    loadingElement.style.display = 'none';
+                    
+                    if (scripts.length > 0) {
+                        scriptsList.innerHTML = '';
+                        scripts.forEach(script => {
+                            const scriptItem = document.createElement('div');
+                            scriptItem.className = 'script-item';
+                            
+                            // Check if user owns script (simplified check)
+                            const ownsScript = Math.random() > 0.5; // Random simulation - replace with actual ownership check
+                            
+                            scriptItem.innerHTML = `
+                                <div>
+                                        <strong>${script.name}</strong>
+                                        <span>${script.description}</span>
+                                        <small>[${script.category}]</small>
+                                        ${ownsScript ? '<span class="owned-badge">Added ✓</span>' : '<span class="price-badge">$' + script.price + '</span>'}
+                                </div>
+                                <div>
+                                        ${ownsScript 
+                                            ? '<button class="btn btn-primary" onclick="addToClient(\'' + script.id + '\')">Add to Client</button>'
+                                            : '<button class="btn btn-secondary" onclick="buyScript(\'' + script.downloadUrl + '\')">Buy</button>'}
+                                        <button class="btn btn-danger" onclick="showRemoveAllConfirmation()">Remove All</button>
+                                </div>
+                            `;
+                            scriptsList.appendChild(scriptItem);
+                        });
+                    } else {
+                        noScriptsElement.style.display = 'block';
+                        scriptsList.style.display = 'none';
+                    }
+                })
+                .catch(error => {
+                    console.error('Failed to load scripts:', error);
+                    loadingElement.style.display = 'none';
                     noScriptsElement.style.display = 'block';
-                    scriptsList.style.display = 'none';
-                }
-            }, 1000);
+                    noScriptsElement.innerHTML = '<p>Failed to load scripts catalog</p>';
+                });
         }
 
         // Script actions
@@ -295,6 +307,68 @@ async function createWindow() {
                 alert(`Script deleted: ${scriptName}\n\nDelete functionality will be implemented in next version!`);
                 loadScriptsList();
             }
+        }
+        
+        function addToClient(scriptId) {
+            alert(`Adding script ${scriptId} to client...\n\nThis will download and install the script to C:\\Users\\${process.env.USERNAME || 'yourname'}\\.blessedscripts\\scripts\\`);
+        }
+        
+        function buyScript(downloadUrl) {
+            // Open website in browser for script purchase
+            require('electron').shell.openExternal(downloadUrl);
+        }
+        
+        // Modal functions
+        function showLoadingModal(message) {
+            const modal = document.getElementById('loading-modal');
+            const messageElement = document.getElementById('loading-message');
+            messageElement.textContent = message;
+            modal.classList.add('show');
+        }
+        
+        function hideLoadingModal() {
+            const modal = document.getElementById('loading-modal');
+            modal.classList.remove('show');
+        }
+        
+        function showErrorModal(message) {
+            const modal = document.getElementById('confirm-dialog');
+            const titleElement = modal.querySelector('.confirm-title');
+            const messageElement = modal.querySelector('.confirm-message');
+            const buttonsElement = modal.querySelector('.confirm-buttons');
+            
+            titleElement.textContent = 'Error';
+            messageElement.textContent = message;
+            buttonsElement.innerHTML = '<button class="btn-cancel" onclick="hideErrorModal()">OK</button>';
+            modal.classList.add('show');
+        }
+        
+        function hideErrorModal() {
+            const modal = document.getElementById('confirm-dialog');
+            modal.classList.remove('show');
+        }
+        
+        // Remove All confirmation functions
+        function showRemoveAllConfirmation() {
+            const modal = document.getElementById('confirm-dialog');
+            modal.classList.add('show');
+        }
+        
+        function confirmRemoveAll() {
+            // Remove all accounts and refresh UI
+            const accountList = document.getElementById('account-list');
+            accountList.innerHTML = '<div class="no-accounts"><p>All accounts removed</p></div>';
+            hideRemoveAllModal();
+            // UI is already refreshed by clearing the list
+        }
+        
+        function cancelRemoveAll() {
+            hideRemoveAllModal();
+        }
+        
+        function hideRemoveAllModal() {
+            const modal = document.getElementById('confirm-dialog');
+            modal.classList.remove('show');
         }
         
         showTab('scripts');

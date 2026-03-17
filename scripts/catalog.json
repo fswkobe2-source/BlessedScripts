@@ -1,0 +1,44 @@
+{
+  "scripts": [
+    {
+      "id": "example-script-1",
+      "name": "Example Script",
+      "description": "An example script for BlessedScripts",
+      "category": "Skilling",
+      "price": 4.99,
+      "version": "1.0.0",
+      "downloadUrl": "https://github.com/fswkobe2-source/BlessedScripts/releases/download/scripts/example-script-1.jar",
+      "imageUrl": ""
+    },
+    {
+      "id": "autofighter-pro",
+      "name": "AutoFighter Pro",
+      "description": "Advanced combat automation with intelligent targeting and loot collection",
+      "category": "Combat",
+      "price": 14.99,
+      "version": "2.1.0",
+      "downloadUrl": "https://github.com/fswkobe2-source/BlessedScripts/releases/download/scripts/autofighter-pro.jar",
+      "imageUrl": ""
+    },
+    {
+      "id": "woodcutter-plus",
+      "name": "Woodcutter Plus",
+      "description": "Efficient woodcutting with tree detection and banking",
+      "category": "Skilling",
+      "price": 9.99,
+      "version": "1.5.0",
+      "downloadUrl": "https://github.com/fswkobe2-source/BlessedScripts/releases/download/scripts/woodcutter-plus.jar",
+      "imageUrl": ""
+    },
+    {
+      "id": "miner-advanced",
+      "name": "Advanced Miner",
+      "description": "Intelligent mining with ore banking and pickaxe switching",
+      "category": "Skilling",
+      "price": 12.99,
+      "version": "1.8.0",
+      "downloadUrl": "https://github.com/fswkobe2-source/BlessedScripts/releases/download/scripts/miner-advanced.jar",
+      "imageUrl": ""
+    }
+  ]
+}
