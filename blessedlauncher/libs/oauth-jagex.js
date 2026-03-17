@@ -294,17 +294,32 @@ function extractIdTokenFromUrl(url) {
 
 function extractCodeFromUrl(url) {
     try {
+        log.info('Extracting code from URL:', url);
         const urlObject = new URL(url);
         const params = new URLSearchParams(urlObject.search);
-        return params.get('code');
+        const code = params.get('code');
+        
+        if (code) {
+            log.info('Authorization code extracted successfully, length:', code.length);
+            log.info('Code preview:', code.substring(0, 20) + '...');
+        } else {
+            log.error('No authorization code found in URL parameters');
+            log.error('Available parameters:', Array.from(params.keys()));
+        }
+        
+        return code;
     } catch (error) {
         log.error(`Error parsing URL for code: ${error.message}`);
+        log.error('URL that caused error:', url);
         return null;
     }
 }
 
 async function getToken(code, codeVerifier) {
     log.info('Exchanging authorization code for token...');
+    log.info('Authorization code:', code.substring(0, 20) + '...');
+    log.info('Code verifier:', codeVerifier.substring(0, 20) + '...');
+    
     try {
         const response = await axios.post(
             'https://account.jagex.com/oauth2/token',
@@ -319,10 +334,25 @@ async function getToken(code, codeVerifier) {
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
             }
         );
-        log.info('Token exchange successful.');
-        return response.data.id_token;
+        
+        log.info('Token exchange response status:', response.status);
+        log.info('Token exchange response data:', JSON.stringify(response.data, null, 2));
+        
+        if (response.data && response.data.id_token) {
+            log.info('Token exchange successful.');
+            return response.data.id_token;
+        } else {
+            log.error('Token exchange failed - no id_token in response');
+            log.error('Response data:', response.data);
+            return null;
+        }
     } catch (error) {
-        log.error(`Error getting token: ${error.response ? error.response.data : error.message}`);
+        log.error('Token exchange error details:');
+        log.error('Status:', error.response?.status);
+        log.error('Status Text:', error.response?.statusText);
+        log.error('Response Data:', error.response?.data);
+        log.error('Error Message:', error.message);
+        log.error('Full Error:', error);
         return null;
     }
 }
@@ -501,7 +531,12 @@ async function startAuthFlow() {
                     
                     // Handle final redirect from Jagex after consent
                     if (url.includes('secure.runescape.com/m=weblogin/launcher-redirect')) {
-                        log.info('Detected Jagex redirect URL, extracting auth code...');
+                        log.info('Detected Jagex redirect URL, waiting for page to fully load...');
+                        
+                        // Wait a moment to ensure the page is fully loaded
+                        await page.waitForTimeout(1000);
+                        
+                        log.info('Extracting auth code from redirect URL...');
                         
                         // Extract code from redirect URL
                         const code = extractCodeFromUrl(url);
