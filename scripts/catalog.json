@@ -3,6 +3,7 @@
     {
       "id": "example-script-1",
       "name": "Example Script",
+      "type": "jar",
       "description": "An example script for BlessedScripts",
       "category": "Skilling",
       "price": 4.99,
@@ -11,8 +12,20 @@
       "imageUrl": ""
     },
     {
+      "id": "example-ahk-1",
+      "name": "Example AHK Script",
+      "type": "ahk",
+      "description": "An AHK automation script",
+      "category": "Misc",
+      "price": 2.99,
+      "version": "1.0.0",
+      "downloadUrl": "https://github.com/fswkobe2-source/BlessedScripts/releases/download/scripts/example-ahk-1.ahk",
+      "imageUrl": ""
+    },
+    {
       "id": "autofighter-pro",
       "name": "AutoFighter Pro",
+      "type": "jar",
       "description": "Advanced combat automation with intelligent targeting and loot collection",
       "category": "Combat",
       "price": 14.99,
@@ -23,6 +36,7 @@
     {
       "id": "woodcutter-plus",
       "name": "Woodcutter Plus",
+      "type": "jar",
       "description": "Efficient woodcutting with tree detection and banking",
       "category": "Skilling",
       "price": 9.99,
@@ -33,6 +47,7 @@
     {
       "id": "miner-advanced",
       "name": "Advanced Miner",
+      "type": "jar",
       "description": "Intelligent mining with ore banking and pickaxe switching",
       "category": "Skilling",
       "price": 12.99,

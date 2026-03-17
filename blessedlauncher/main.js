@@ -220,29 +220,7 @@ async function createWindow() {
         console.log('HTML loaded successfully');
         log.info('HTML loaded successfully');
         
-        // Show Scripts tab
-        function showTab(tabName) {
-            // Hide all tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Remove active class from all nav tabs
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Show selected tab
-            document.getElementById(tabName + '-content').classList.add('active');
-            document.getElementById(tabName + '-tab').classList.add('active');
-            
-            // Special handling for Scripts tab
-            if (tabName === 'scripts') {
-                loadScriptsList();
-            }
-        }
-
-        // Load scripts list from catalog
+        // Load scripts list from catalog and local files
         function loadScriptsList() {
             const scriptsList = document.getElementById('scripts-list');
             const loadingElement = document.getElementById('scripts-loading');
@@ -256,37 +234,51 @@ async function createWindow() {
             // Fetch scripts from catalog
             axios.get('https://raw.githubusercontent.com/fswkobe2-source/BlessedScripts/master/scripts/catalog.json')
                 .then(response => {
-                    const scripts = response.data.scripts || [];
+                    const catalogScripts = response.data.scripts || [];
+                    
+                    // Scan local scripts folder for .jar and .ahk files
+                    const localScripts = scanLocalScripts();
+                    
+                    // Combine catalog and local scripts
+                    const allScripts = [...catalogScripts, ...localScripts];
+                    
                     loadingElement.style.display = 'none';
                     
-                    if (scripts.length > 0) {
+                    if (allScripts.length > 0) {
                         scriptsList.innerHTML = '';
-                        scripts.forEach(script => {
+                        allScripts.forEach(script => {
                             const scriptItem = document.createElement('div');
                             scriptItem.className = 'script-item';
                             
                             // Check if user owns script (simplified check)
                             const ownsScript = Math.random() > 0.5; // Random simulation - replace with actual ownership check
                             
+                            // Create type badge
+                            const typeBadge = script.type === 'ahk' 
+                                ? '<span class="type-badge ahk">AHK</span>'
+                                : '<span class="type-badge jar">BOT</span>';
+                            
                             scriptItem.innerHTML = `
                                 <div>
-                                        <strong>${script.name}</strong>
-                                        <span>${script.description}</span>
-                                        <small>[${script.category}]</small>
-                                        ${ownsScript ? '<span class="owned-badge">Added ✓</span>' : '<span class="price-badge">$' + script.price + '</span>'}
+                                    <strong>${script.name}</strong>
+                                    <span>${script.description}</span>
+                                    <small>[${script.category}]</small>
+                                    ${typeBadge}
+                                    ${ownsScript ? '<span class="owned-badge">Added ✓</span>' : '<span class="price-badge">$' + script.price + '</span>'}
                                 </div>
                                 <div>
-                                        ${ownsScript 
-                                            ? '<button class="btn btn-primary" onclick="addToClient(\'' + script.id + '\')">Add to Client</button>'
-                                            : '<button class="btn btn-secondary" onclick="buyScript(\'' + script.downloadUrl + '\')">Buy</button>'}
-                                        <button class="btn btn-danger" onclick="showRemoveAllConfirmation()">Remove All</button>
+                                    ${ownsScript 
+                                        ? '<button class="btn btn-primary" onclick="addToClient(\'' + script.id + '\')">Add to Client</button>'
+                                        : '<button class="btn btn-secondary" onclick="buyScript(\'' + script.downloadUrl + '\')">Buy</button>'}
+                                    <button class="btn btn-danger" onclick="deleteScript(\'' + script.name + '\')">🗑</button>
                                 </div>
                             `;
                             scriptsList.appendChild(scriptItem);
                         });
                     } else {
+                        loadingElement.style.display = 'none';
                         noScriptsElement.style.display = 'block';
-                        scriptsList.style.display = 'none';
+                        noScriptsElement.innerHTML = '<p>No scripts found</p>';
                     }
                 })
                 .catch(error => {
@@ -295,6 +287,48 @@ async function createWindow() {
                     noScriptsElement.style.display = 'block';
                     noScriptsElement.innerHTML = '<p>Failed to load scripts catalog</p>';
                 });
+        }
+        
+        // Scan local scripts folder
+        function scanLocalScripts() {
+            const scriptsPath = path.join(process.env.HOME || process.env.USERPROFILE, '.blessedscripts', 'scripts');
+            
+            if (!fs.existsSync(scriptsPath)) {
+                return [];
+            }
+            
+            try {
+                const files = fs.readdirSync(scriptsPath);
+                const scripts = [];
+                
+                files.forEach(file => {
+                    const filePath = path.join(scriptsPath, file);
+                    const stat = fs.statSync(filePath);
+                    
+                    if (stat.isFile()) {
+                        const ext = path.extname(file).toLowerCase();
+                        if (ext === '.jar' || ext === '.ahk') {
+                            const script = {
+                                id: 'local-' + file.replace(ext, ''),
+                                name: file.replace(ext, ''),
+                                type: ext === '.ahk' ? 'ahk' : 'jar',
+                                description: ext === '.ahk' ? 'Local AHK script' : 'Local bot script',
+                                category: 'Misc',
+                                price: 0,
+                                version: '1.0.0',
+                                downloadUrl: '',
+                                imageUrl: ''
+                            };
+                            scripts.push(script);
+                        }
+                    }
+                });
+                
+                return scripts;
+            } catch (error) {
+                console.error('Failed to scan local scripts:', error);
+                return [];
+            }
         }
 
         // Script actions
@@ -316,6 +350,11 @@ async function createWindow() {
         function buyScript(downloadUrl) {
             // Open website in browser for script purchase
             require('electron').shell.openExternal(downloadUrl);
+        }
+        
+        function openScriptsFolder() {
+            const scriptsPath = path.join(process.env.HOME || process.env.USERPROFILE, '.blessedscripts', 'scripts');
+            require('electron').shell.showItemInFolder(scriptsPath);
         }
         
         // Modal functions
@@ -346,6 +385,63 @@ async function createWindow() {
         function hideErrorModal() {
             const modal = document.getElementById('confirm-dialog');
             modal.classList.remove('show');
+        }
+        
+        // Script Key Redemption Modal
+        function showRedeemKeyModal() {
+            const modal = document.getElementById('confirm-dialog');
+            const titleElement = modal.querySelector('.confirm-title');
+            const messageElement = modal.querySelector('.confirm-message');
+            const buttonsElement = modal.querySelector('.confirm-buttons');
+            
+            titleElement.textContent = 'Activate Script';
+            messageElement.innerHTML = 'Enter your script key:<input type="text" id="script-key" placeholder="XXXX-XXXX-XXXX-XXXX" style="width: 100%; padding: 0.75rem; margin: 1rem 0; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 8px; color: white; font-size: 1rem;"><br><small style="color: rgba(255, 255, 255, 0.6);">Script keys are provided after purchase on our Discord: discord.gg/SjSukZkfxh</small>';
+            buttonsElement.innerHTML = '<button class="btn btn-primary" onclick="redeemScriptKey()" style="background: linear-gradient(135deg, #9333ea 0%, #722f91 100%);">Activate</button><button class="btn-cancel" onclick="hideRedeemKeyModal()">Cancel</button>';
+            modal.classList.add('show');
+        }
+        
+        function hideRedeemKeyModal() {
+            const modal = document.getElementById('confirm-dialog');
+            modal.classList.remove('show');
+        }
+        
+        async function redeemScriptKey() {
+            const keyInput = document.getElementById('script-key');
+            const scriptKey = keyInput.value.trim();
+            
+            if (!scriptKey) {
+                showErrorModal('Please enter a valid script key.');
+                return;
+            }
+            
+            try {
+                showLoadingModal('Activating script...');
+                
+                const response = await axios.post('https://blessedscripts.com/api/scripts/redeem', {
+                    key: scriptKey
+                });
+                
+                hideLoadingModal();
+                
+                if (response.data && response.data.success) {
+                    const script = response.data.script;
+                    
+                    // Download and install script
+                    const scriptPath = path.join(process.env.HOME || process.env.USERPROFILE, '.blessedscripts', 'scripts', script.id + '.jar');
+                    
+                    // For now, show success message (in real implementation, would download here)
+                    alert(`Script activated! ${script.name} has been added to your client.`);
+                    
+                    // Refresh scripts list
+                    loadScriptsList();
+                    hideRedeemKeyModal();
+                } else {
+                    showErrorModal('Invalid or already used key. Contact support on Discord.');
+                }
+            } catch (error) {
+                hideLoadingModal();
+                showErrorModal('Failed to activate script. Please try again.');
+            }
         }
         
         // Remove All confirmation functions
