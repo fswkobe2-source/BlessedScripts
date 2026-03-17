@@ -16,6 +16,7 @@ module.exports = async function (deps) {
     const filePath = path.resolve(blessedScriptsDir, 'accounts.json');
 
     ipcMain.handle('read-accounts', async () => {
+        log.info('read-accounts handler registered');
         try {
             if (fs.existsSync(filePath)) {
                 const data = fs.readFileSync(filePath, 'utf8');

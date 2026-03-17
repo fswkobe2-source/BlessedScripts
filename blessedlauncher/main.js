@@ -241,6 +241,7 @@ async function loadLibraries() {
 
         if (typeof handler === 'function') {
             await handler(deps);
+            log.info('IPC handlers loaded successfully');
         } else {
             log.error('ipcHandlers does not export a function');
         }
