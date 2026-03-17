@@ -240,7 +240,7 @@ function extractCodeFromUrl(url) {
     }
 }
 
-async function getToken(code) {
+async function getToken(code, codeVerifier) {
     log.info('Exchanging authorization code for token...');
     try {
         const response = await axios.post(
@@ -326,16 +326,36 @@ async function writeAccountsToFile(sessionId) {
 async function startAuthFlow() {
     return new Promise(async (resolve, reject) => {
         let finished = false;
+        let browser = null;
+        let timeoutId = null;
 
         function fail(err) {
             if (finished) return;
             finished = true;
+            if (timeoutId) clearTimeout(timeoutId);
+            if (browser) {
+                browser.close().catch(e => log.error('Error closing browser:', e));
+            }
             reject(err);
         }
 
+        function success(message) {
+            if (finished) return;
+            finished = true;
+            if (timeoutId) clearTimeout(timeoutId);
+            if (browser) {
+                browser.close().catch(e => log.error('Error closing browser:', e));
+            }
+            resolve(message);
+        }
+
+        // Set timeout for 5 minutes (300000 ms)
+        timeoutId = setTimeout(() => {
+            fail(new Error('Login timed out - please try again'));
+        }, 300000);
+
         try {
             // Check if Patchright browsers are available before launching
-            let browser;
             try {
                 const executablePath = chromium.executablePath();
                 log.info('Using Patchright browser executable:', executablePath);
@@ -352,14 +372,18 @@ async function startAuthFlow() {
             const context = await browser.newContext();
             const page = await context.newPage();
 
+            // Generate OAuth parameters
+            const codeVerifier = generateCodeVerifier(128);
+            const codeChallenge = getCodeChallenge(codeVerifier);
+            const state = generateRandomState(32);
+
             const initialUrl = `https://account.jagex.com/oauth2/auth?auth_method=&login_type=&flow=launcher&response_type=code&client_id=com_jagex_auth_desktop_launcher&redirect_uri=https%3A%2F%2Fsecure.runescape.com%2Fm%3Dweblogin%2Flauncher-redirect&code_challenge=${codeChallenge}&code_challenge_method=S256&prompt=login&scope=openid+offline+gamesso.token.create+user.profile.read&state=${state}`;
 
             log.info('Starting Blessed Scripts authentication flow...');
 
             page.once('close', () => {
                 if (finished) return;
-                fail(new Error('Browser was closed before authentication flow completed.'));
-                browser.close();
+                fail(new Error('Login cancelled - please try again'));
             });
 
             page.on('framenavigated', async (frame) => {
@@ -374,18 +398,17 @@ async function startAuthFlow() {
                             const sessionId = await getSessionId(idToken);
                             if (sessionId) {
                                 await writeAccountsToFile(sessionId);
+                                log.info('Account saved successfully.');
                             }
 
                             log.info('Authentication flow complete. Closing browser.');
-                            finished = true;
-                            await browser.close();
-                            resolve('Authentication successful.');
+                            success('Authentication successful.');
                         }
                     } else if (url.includes('code=') && !url.includes('locale?')) {
                         log.info('Found the URL with the code query parameter.');
                         const code = extractCodeFromUrl(url);
                         if (code) {
-                            const idTokenFromCode = await getToken(code);
+                            const idTokenFromCode = await getToken(code, codeVerifier);
                             if (idTokenFromCode) {
                                 const nonce = generateRandomState(48);
                                 const nextAuthUrl = `https://account.jagex.com/oauth2/auth?id_token_hint=${idTokenFromCode}&nonce=${nonce}&prompt=consent&redirect_uri=http%3A%2F%2Flocalhost&response_type=id_token+code&state=${state}&client_id=1fddee4e-b100-4f4e-b2b0-097f9088f9d2&scope=openid+offline`;
@@ -396,8 +419,8 @@ async function startAuthFlow() {
                         }
                     }
                 } catch (error) {
+                    log.error('Authentication flow error:', error.message);
                     fail(new Error('An error occurred during the authentication flow.'));
-                    await browser.close();
                 }
             });
 

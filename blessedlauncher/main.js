@@ -444,6 +444,37 @@ async function createWindow() {
             }
         }
         
+        // Jagex Authentication Handler
+        async function authenticateJagexAccount() {
+            try {
+                showLoadingModal('Opening authentication browser...');
+                
+                const result = await window.electronAPI.invoke('start-auth-flow');
+                
+                hideLoadingModal();
+                
+                if (result && result.error) {
+                    // Show error modal with try again button
+                    const modal = document.getElementById('confirm-dialog');
+                    const titleElement = modal.querySelector('.confirm-title');
+                    const messageElement = modal.querySelector('.confirm-message');
+                    const buttonsElement = modal.querySelector('.confirm-buttons');
+                    
+                    titleElement.textContent = 'Authentication Failed';
+                    messageElement.textContent = result.error;
+                    buttonsElement.innerHTML = '<button class="btn btn-primary" onclick="authenticateJagexAccount()">Try Again</button><button class="btn-cancel" onclick="hideErrorModal()">Cancel</button>';
+                    modal.classList.add('show');
+                } else {
+                    // Success - refresh accounts list
+                    loadAccounts();
+                    alert('Jagex account authenticated successfully!');
+                }
+            } catch (error) {
+                hideLoadingModal();
+                showErrorModal('Failed to start authentication. Please try again.');
+            }
+        }
+        
         // Account Management System
 let accounts = [];
 let selectedAccount = null;
