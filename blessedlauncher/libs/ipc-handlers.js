@@ -216,7 +216,7 @@ module.exports = async function (deps) {
 
     ipcMain.handle('get-bundled-client-path', async () => {
         try {
-            // Check for bundled client in resources
+            // Check for bundled client in resources using process.resourcesPath
             const resourcePath = process.resourcesPath;
             const bundledClientPath = path.join(resourcePath, 'BlessedScripts-2.1.25.jar');
             
@@ -227,24 +227,6 @@ module.exports = async function (deps) {
             if (fs.existsSync(bundledClientPath)) {
                 log.info(`Found bundled client at: ${bundledClientPath}`);
                 return bundledClientPath;
-            }
-            
-            // Check alternative path
-            const altPath = path.join(process.execPath, '..', 'resources', 'BlessedScripts-2.1.25.jar');
-            log.info(`Checking alternative path: ${altPath}`);
-            
-            if (fs.existsSync(altPath)) {
-                log.info(`Found bundled client at alternative path: ${altPath}`);
-                return altPath;
-            }
-            
-            // Check direct resources folder
-            const directPath = path.join(process.execPath, '..', 'resources', 'BlessedScripts-2.1.25.jar');
-            log.info(`Checking direct resources path: ${directPath}`);
-            
-            if (fs.existsSync(directPath)) {
-                log.info(`Found bundled client at direct path: ${directPath}`);
-                return directPath;
             }
             
             log.info('No bundled client found');
