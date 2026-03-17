@@ -447,7 +447,7 @@ async function createWindow() {
         // Jagex Authentication Handler
         async function authenticateJagexAccount() {
             try {
-                showLoadingModal('Opening authentication browser...');
+                showLoadingModal('Setting up browser for authentication... This may take a few minutes on first run.');
                 
                 const result = await window.electronAPI.invoke('start-auth-flow');
                 

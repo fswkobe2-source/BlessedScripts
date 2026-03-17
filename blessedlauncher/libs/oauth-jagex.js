@@ -23,6 +23,66 @@ async function checkPatchrightBrowsers() {
     }
 }
 
+// Function to install Patchright browsers synchronously
+async function installPatchrightBrowsersSync() {
+    return new Promise((resolve, reject) => {
+        log.info('Installing Patchright browsers synchronously...');
+        
+        const { spawn } = require('child_process');
+        
+        const npxProcess = spawn('npx', ['patchright', 'install', 'chromium'], {
+            stdio: ['pipe', 'pipe', 'pipe'],
+            shell: true,
+            cwd: __dirname
+        });
+
+        let stdout = '';
+        let stderr = '';
+
+        npxProcess.stdout.on('data', (data) => {
+            stdout += data.toString();
+            log.info(`[patchright-install] ${data.toString().trim()}`);
+        });
+
+        npxProcess.stderr.on('data', (data) => {
+            stderr += data.toString();
+            log.error(`[patchright-install] ${data.toString().trim()}`);
+        });
+
+        npxProcess.on('close', (code) => {
+            if (code === 0) {
+                log.info('Patchright browsers installed successfully');
+                resolve(true);
+            } else {
+                log.error(`Patchright installation failed with code ${code}`);
+                reject(new Error(`Patchright installation failed with code ${code}`));
+            }
+        });
+
+        npxProcess.on('error', (error) => {
+            log.error('Failed to start Patchright installation:', error.message);
+            reject(error);
+        });
+    });
+}
+
+// Function to ensure Patchright browsers are available with synchronous install
+async function ensurePatchrightBrowsersSync() {
+    const browsersInstalled = await checkPatchrightBrowsers();
+    if (!browsersInstalled) {
+        log.info('Patchright browsers not found, installing synchronously...');
+        await installPatchrightBrowsersSync();
+        
+        // Verify installation was successful
+        const verifyInstalled = await checkPatchrightBrowsers();
+        if (!verifyInstalled) {
+            throw new Error('Patchright installation failed. Please run: npx patchright install chromium');
+        }
+        
+        log.info('Patchright browsers are now ready');
+    }
+}
+
 // Function to install Patchright browsers
 async function installPatchrightBrowsers() {
     return new Promise((resolve, reject) => {
@@ -355,15 +415,10 @@ async function startAuthFlow() {
         }, 300000);
 
         try {
-            // Check if Patchright browsers are available before launching
-            try {
-                const executablePath = chromium.executablePath();
-                log.info('Using Patchright browser executable:', executablePath);
-            } catch (error) {
-                log.error('Patchright browsers not available:', error.message);
-                fail(new Error('Patchright browsers are not installed. Please restart the launcher to automatically install them, or run "npx patchright install chromium" manually.'));
-                return;
-            }
+            // Ensure Patchright browsers are available synchronously before launching
+            log.info('Ensuring Patchright browsers are available...');
+            await ensurePatchrightBrowsersSync();
+            log.info('Patchright browsers verified and ready.');
 
             browser = await chromium.launch({
                 headless: false,
@@ -443,4 +498,4 @@ async function startAuthFlow() {
     });
 }
 
-module.exports = { startAuthFlow, writeAccountsToFile, checkPatchrightBrowsers, installPatchrightBrowsers };
+module.exports = { startAuthFlow, writeAccountsToFile, checkPatchrightBrowsers, installPatchrightBrowsers, installPatchrightBrowsersSync, ensurePatchrightBrowsersSync };
