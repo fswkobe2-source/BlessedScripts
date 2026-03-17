@@ -485,6 +485,12 @@ function loadAccounts() {
     const loadingElement = document.getElementById('accounts-loading');
     const noAccountsElement = document.getElementById('no-accounts');
     
+    // Check if elements exist before accessing them
+    if (!accountList || !loadingElement || !noAccountsElement) {
+        console.error('Account loading elements not found in DOM');
+        return;
+    }
+    
     // Show loading
     accountList.style.display = 'none';
     loadingElement.style.display = 'block';
@@ -575,6 +581,12 @@ function selectAccount(accountId) {
 function updateSelectedAccountDisplay() {
     const selectedAccountInput = document.getElementById('selected-account');
     const launchBtn = document.getElementById('launch-btn');
+    
+    // Check if elements exist before accessing them
+    if (!selectedAccountInput || !launchBtn) {
+        console.error('Selected account display elements not found in DOM');
+        return;
+    }
     
     if (selectedAccount) {
         selectedAccountInput.value = selectedAccount.displayName || selectedAccount.username;
