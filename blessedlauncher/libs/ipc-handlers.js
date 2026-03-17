@@ -407,3 +407,5 @@ module.exports = async function (deps) {
         }
     });
 };
+
+log.info('IPC handlers loaded successfully');
