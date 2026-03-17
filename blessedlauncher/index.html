@@ -805,6 +805,109 @@
             background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.12) 100%);
             transform: translateY(-2px);
         }
+
+        /* Responsive improvements */
+        @media (max-width: 1600px) {
+            .sidebar {
+                width: 350px;
+            }
+            .main-content {
+                padding: 2rem;
+            }
+            .header h2 {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 1400px) {
+            .sidebar {
+                width: 320px;
+            }
+            .main-content {
+                padding: 1.5rem;
+            }
+            .header h2 {
+                font-size: 2.5rem;
+            }
+            .logo h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* Better form layout */
+        .client-config {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-group select,
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group select:focus,
+        .form-group input:focus {
+            outline: none;
+            border-color: #7832ff;
+            box-shadow: 0 0 0 2px rgba(120, 50, 255, 0.2);
+        }
+
+        /* Better button layout */
+        .actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            min-width: 200px;
+            padding: 1rem 2rem;
+        }
+
+        /* Scripts section improvements */
+        .scripts-section {
+            padding: 1rem;
+        }
+
+        .scripts-browser {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .scripts-info {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .scripts-info code {
+            display: block;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
     </style>
 </head>
 <body>
@@ -822,34 +925,11 @@
             
             <!-- Navigation Tabs -->
             <div class="nav-tabs">
-                <button class="nav-tab active" onclick="showTab('accounts')" id="accounts-tab">Accounts</button>
-                <button class="nav-tab" onclick="showTab('scripts')" id="scripts-tab">Scripts</button>
+                <button class="nav-tab active" onclick="showTab('scripts')" id="scripts-tab">Scripts</button>
             </div>
             
-            <!-- Accounts Section -->
-            <div class="tab-content" id="accounts-content">
-                <div class="account-section">
-                    <h3>Jagex Accounts</h3>
-                    <div id="account-list" class="account-list">
-                        <div class="loading" id="accounts-loading">
-                            <div class="spinner"></div>
-                            <p>Loading accounts...</p>
-                        </div>
-                        <div class="no-accounts hidden" id="no-accounts">
-                            <p>No accounts found</p>
-                            <button class="btn btn-primary" onclick="startAuthFlow()">Add Account</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="btn-group" style="margin-top: 1.5rem;">
-                    <button class="btn btn-secondary" onclick="refreshAccounts()">Refresh</button>
-                    <button class="btn btn-danger" onclick="removeAllAccounts()">Remove All</button>
-                </div>
-            </div>
-            
-            <!-- Scripts Section -->
-            <div class="tab-content hidden" id="scripts-content">
+            <!-- Scripts Section (now in sidebar) -->
+            <div class="tab-content" id="scripts-content">
                 <div class="scripts-section">
                     <h3>User Scripts</h3>
                     <div class="scripts-info">
@@ -898,8 +978,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="selected-account">Selected Account</label>
-                    <input type="text" id="selected-account" readonly placeholder="No account selected" />
+                    <label for="selected-account">Select Account</label>
+                    <select id="selected-account" onchange="selectAccount(this.value)">
+                        <option value="">No account selected</option>
+                    </select>
                 </div>
             </div>
 
@@ -923,7 +1005,7 @@
     </div>
 
     <div class="version-info">
-        Blessed Scripts Launcher v1.0.5
+        Blessed Scripts Launcher v1.0.6
     </div>
 
     <!-- Loading Modal -->

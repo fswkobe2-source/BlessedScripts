@@ -82,6 +82,22 @@ function updateAccountList() {
         noAccountsEl.classList.add('hidden');
     }
     
+    // Update the dropdown in the main panel
+    const selectedAccountEl = $('selected-account');
+    if (selectedAccountEl) {
+        selectedAccountEl.innerHTML = '<option value="">No account selected</option>';
+        
+        accounts.forEach(account => {
+            const option = document.createElement('option');
+            option.value = account.accountId;
+            option.textContent = account.displayName || account.accountId;
+            if (selectedAccount && selectedAccount.accountId === account.accountId) {
+                option.selected = true;
+            }
+            selectedAccountEl.appendChild(option);
+        });
+    }
+    
     if (accounts.length === 0) {
         if (noAccountsEl) {
             noAccountsEl.classList.remove('hidden');
@@ -121,25 +137,16 @@ function selectAccount(accountId) {
         selectedItem.classList.add('selected');
     }
     
-    // Update selected account display
+    // Update the dropdown selection
     const selectedAccountEl = $('selected-account');
-    if (selectedAccount) {
-        if (selectedAccountEl) {
-            selectedAccountEl.value = selectedAccount.displayName || selectedAccount.accountId;
-        }
-        // Only enable launch if both account and client are ready
-        const launchBtn = $('launch-btn');
-        if (launchBtn) {
-            launchBtn.disabled = !clientFound;
-        }
-    } else {
-        if (selectedAccountEl) {
-            selectedAccountEl.value = '';
-        }
-        const launchBtn = $('launch-btn');
-        if (launchBtn) {
-            launchBtn.disabled = true;
-        }
+    if (selectedAccountEl) {
+        selectedAccountEl.value = accountId || '';
+    }
+    
+    // Update launch button
+    const launchBtn = $('launch-btn');
+    if (launchBtn) {
+        launchBtn.disabled = !selectedAccount || !clientFound;
     }
 }
 
@@ -325,6 +332,7 @@ async function checkForUpdates() {
 document.addEventListener('DOMContentLoaded', () => {
     loadAccounts();
     findBlessedScriptsClient();
+    showTab('scripts'); // Show scripts tab by default
     
     // Set up modal listeners
     window.electron.ipcRenderer.receive('show-loading-modal', (event, message) => {

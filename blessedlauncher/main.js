@@ -198,8 +198,8 @@ async function createWindow() {
     
     // Create the main window
     mainWindow = new BrowserWindow({
-        width: 1200,
-        height: 800,
+        width: 1400,
+        height: 900,
         show: false, // Don't show immediately - wait for update check
         title: 'Blessed Scripts Launcher',
         autoHideMenuBar: true,
