@@ -261,7 +261,22 @@ const AUTH_COMPLETE_HTML = `<!DOCTYPE html>
 </html>`;
 
 function generateCodeVerifier(length) {
-    return crypto.randomBytes(length).toString('base64url');
+    // Generate exactly 128 characters for the code verifier
+    let verifier = crypto.randomBytes(length).toString('base64url');
+    
+    // Ensure it's exactly 128 characters (not bytes)
+    if (verifier.length > 128) {
+        verifier = verifier.substring(0, 128);
+    } else if (verifier.length < 128) {
+        // Pad with random characters if needed
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        while (verifier.length < 128) {
+            verifier += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+    }
+    
+    log.info('Generated code verifier length:', verifier.length);
+    return verifier;
 }
 
 function getCodeChallenge(verifier) {
