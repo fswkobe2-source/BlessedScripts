@@ -10,7 +10,8 @@
     "build:win": "electron-builder --win",
     "build:win-x64": "electron-builder --win --x64",
     "build:win-ia32": "electron-builder --win --ia32",
-    "package:jpackage": "node scripts/build-jpackage.js"
+    "package:jpackage": "node scripts/build-jpackage.js",
+    "build:installer": "node scripts/build-complete-installer.js"
   },
   "keywords": [
     "blessed-scripts",

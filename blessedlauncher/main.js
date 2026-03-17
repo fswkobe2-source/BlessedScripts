@@ -4,7 +4,8 @@ const fs = require('fs');
 const axios = require('axios');
 const log = require('electron-log');
 const { ipcMain } = require('electron');
-const { spawn } = require('child_process');
+const { spawn, execSync } = require('child_process');
+const os = require('os');
 
 // Import updater
 const Updater = require('./libs/updater');
@@ -16,10 +17,48 @@ process.on('uncaughtException', (error) => {
 let mainWindow = null;
 let updater = null;
 
-// Ensure the .blessedscripts directory exists
+// Ensure .blessedscripts directory exists
 const blessedScriptsDir = path.join(process.env.HOME || process.env.USERPROFILE, '.blessedscripts');
 if (!fs.existsSync(blessedScriptsDir)) {
     fs.mkdirSync(blessedScriptsDir);
+}
+
+// Function to check if Java is installed
+function checkJavaInstallation() {
+    try {
+        const javaVersion = execSync('java -version 2>&1', { 
+            encoding: 'utf8',
+            timeout: 10000 
+        });
+        
+        if (javaVersion.includes('java version') || javaVersion.includes('openjdk')) {
+            log.info(`Java is installed: ${javaVersion.split('\n')[0]}`);
+            return true;
+        }
+        return false;
+    } catch (error) {
+        log.error('Java not found or not accessible:', error.message);
+        return false;
+    }
+}
+
+// Function to install Java silently (simplified - would need proper Java installer)
+async function installJava() {
+    log.info('Java not found, prompting user to install Java...');
+    
+    const result = await dialog.showMessageBox(mainWindow, {
+        type: 'warning',
+        title: 'Java Required',
+        message: 'Java is required to run Blessed Scripts but was not found on your system.\n\nPlease install Java (JRE 8 or higher) from https://www.java.com/en/download/ and restart the launcher.',
+        buttons: ['Download Java', 'Cancel'],
+        defaultId: 0
+    });
+    
+    if (result.response === 0) {
+        await shell.openExternal('https://www.java.com/en/download/');
+    }
+    
+    return result.response === 1;
 }
 
 // Function to check if Patchright browsers are installed
@@ -759,6 +798,19 @@ app.whenReady().then(async () => {
     console.log('App is ready, starting launcher...');
     log.info('Blessed Scripts Launcher starting...');
     
+    // Check system requirements first
+    log.info('Checking system requirements...');
+    const javaInstalled = checkJavaInstallation();
+    if (!javaInstalled) {
+        log.error('Java not found - user needs to install Java');
+        const javaResult = await installJava();
+        if (!javaResult) {
+            log.error('User cancelled Java installation');
+            app.quit();
+            return;
+        }
+    }
+    
     console.log('Ensuring Patchright browsers are installed...');
     // First, ensure Patchright browsers are available
     await ensurePatchrightBrowsers();
@@ -770,7 +822,7 @@ app.whenReady().then(async () => {
     console.log('Libraries loaded successfully');
     
     console.log('Creating window...');
-    // Then create and show the window
+    // Then create and show window
     await createWindow();
     console.log('Window creation completed');
 });
