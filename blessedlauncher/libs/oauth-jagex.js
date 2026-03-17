@@ -1,12 +1,10 @@
 const { chromium } = require('patchright');
-const { execSync } = require('child_process');
+const { execSync, spawn } = require('child_process');
 const axios = require('axios');
 const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const { spawn } = require('child_process');
-const { execSync } = require('child_process');
 const log = require('electron-log');
 
 const userHome = process.env.HOME || process.env.USERPROFILE;
