@@ -860,12 +860,25 @@
             border-radius: 8px;
             color: #ffffff;
             font-size: 1rem;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            cursor: pointer;
         }
 
         .form-group select option {
             background: rgba(20, 10, 40, 0.9);
             color: #ffffff;
             padding: 0.5rem;
+        }
+
+        /* Add dropdown arrow styling */
+        .form-group select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='white' viewBox='0 0 16 16'%3e%3cpath d='M4 6l8 8 8-8z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1rem;
+            padding-right: 2.5rem;
         }
 
         .form-group select:focus,
