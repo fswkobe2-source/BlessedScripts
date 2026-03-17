@@ -37,12 +37,14 @@ function updateClientStatus(status, found = false) {
 }
 
 async function findBlessedScriptsClient() {
+    console.log('findBlessedScriptsClient() called');
     updateClientStatus('Checking for BlessedScripts client...');
     
     // Check for bundled client via electron API first
     try {
         console.log('Checking for bundled client...');
         const bundledClientPath = await window.electron.getBundledClientPath();
+        console.log('Bundled client path result:', bundledClientPath);
         if (bundledClientPath) {
             clientPath = bundledClientPath;
             updateClientStatus(`Found: BlessedScripts-2.1.25.jar (bundled)`, true);
@@ -57,6 +59,7 @@ async function findBlessedScriptsClient() {
     try {
         console.log('Checking for development client...');
         const devClientPath = await window.electron.getDevClientPath();
+        console.log('Dev client path result:', devClientPath);
         if (devClientPath) {
             clientPath = devClientPath;
             updateClientStatus(`Found: BlessedScripts-2.1.25.jar (development)`, true);
@@ -67,6 +70,7 @@ async function findBlessedScriptsClient() {
         console.error('Error checking development client:', error);
     }
     
+    console.log('No client found, showing not found message');
     updateClientStatus('BlessedScripts client not found. Please ensure the client is built and bundled correctly.');
 }
 
