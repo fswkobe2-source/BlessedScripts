@@ -763,8 +763,6 @@ function refreshAccounts() {
     loadAccounts();
 }
         
-        showTab('accounts');
-        
         // Initialize accounts on startup
         document.addEventListener('DOMContentLoaded', () => {
             console.log('DOM fully loaded, initializing accounts...');
