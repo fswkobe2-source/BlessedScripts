@@ -57,7 +57,7 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "BlessedScripts",
+      "owner": "fswkobe2-source",
       "repo": "BlessedScripts"
     },
     "win": {
