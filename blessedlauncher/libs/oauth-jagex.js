@@ -435,9 +435,6 @@ async function startAuthFlow() {
             if (!chromiumExists) {
                 log.info('Patchright Chromium not found, installing synchronously...');
                 
-                // Show loading message to user - this will be handled by the main process
-                // The main process will show the loading modal before calling this function
-                
                 try {
                     execSync('npx patchright install chromium', { 
                         timeout: 120000,
@@ -454,10 +451,17 @@ async function startAuthFlow() {
 
             // Now launch browser - Patchright is guaranteed to be installed
             log.info('Launching Patchright browser...');
-            browser = await chromium.launch({
-                headless: false,
-                args: ['--no-sandbox', '--disable-setuid-sandbox']
-            });
+            try {
+                browser = await chromium.launch({
+                    headless: false,
+                    args: ['--no-sandbox', '--disable-setuid-sandbox']
+                });
+            } catch (browserError) {
+                log.error('Failed to launch browser:', browserError.message);
+                fail(new Error('Failed to launch browser. Please ensure your system has sufficient resources and try again.'));
+                return;
+            }
+            
             const context = await browser.newContext();
             const page = await context.newPage();
 
@@ -480,8 +484,40 @@ async function startAuthFlow() {
                 const url = frame.url();
 
                 try {
-                    if (url.includes('id_token=')) {
-                        log.info('Found the URL with the id_token query parameter.');
+                    log.info('Frame navigated to:', url);
+                    
+                    // Handle final redirect from Jagex after consent
+                    if (url.includes('secure.runescape.com/m=weblogin/launcher-redirect')) {
+                        log.info('Detected Jagex redirect URL, extracting auth code...');
+                        
+                        // Extract code from redirect URL
+                        const code = extractCodeFromUrl(url);
+                        if (code) {
+                            log.info('Authorization code found, exchanging for token...');
+                            const idTokenFromCode = await getToken(code, codeVerifier);
+                            if (idTokenFromCode) {
+                                log.info('Token received, getting session ID...');
+                                const sessionId = await getSessionId(idTokenFromCode);
+                                if (sessionId) {
+                                    log.info('Session ID received, saving account...');
+                                    await writeAccountsToFile(sessionId);
+                                    log.info('Account saved successfully.');
+                                }
+
+                                log.info('Authentication flow complete. Closing browser.');
+                                success('Authentication successful.');
+                            } else {
+                                log.error('Failed to get ID token from authorization code');
+                                fail(new Error('Failed to complete authentication - token exchange failed'));
+                            }
+                        } else {
+                            log.error('No authorization code found in redirect URL');
+                            fail(new Error('Failed to complete authentication - no authorization code'));
+                        }
+                    }
+                    // Handle intermediate step with id_token in URL (rare case)
+                    else if (url.includes('id_token=')) {
+                        log.info('Found URL with id_token query parameter.');
                         const idToken = extractIdTokenFromUrl(url);
                         if (idToken) {
                             const sessionId = await getSessionId(idToken);
@@ -493,7 +529,9 @@ async function startAuthFlow() {
                             log.info('Authentication flow complete. Closing browser.');
                             success('Authentication successful.');
                         }
-                    } else if (url.includes('code=') && !url.includes('locale?')) {
+                    }
+                    // Handle initial authorization step
+                    else if (url.includes('code=') && !url.includes('locale?')) {
                         log.info('Found the URL with the code query parameter.');
                         const code = extractCodeFromUrl(url);
                         if (code) {

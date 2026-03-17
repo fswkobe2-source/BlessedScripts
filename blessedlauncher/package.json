@@ -73,7 +73,8 @@
       "signAndEditExecutable": false,
       "signDlls": false,
       "publisherName": "Blessed Scripts",
-      "requestedExecutionLevel": "asInvoker"
+      "requestedExecutionLevel": "asInvoker",
+      "artifactName": "Blessed-Scripts-Launcher-Setup-${version}.exe"
     },
     "nsis": {
       "oneClick": true,
