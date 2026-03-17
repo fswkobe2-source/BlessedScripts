@@ -811,20 +811,20 @@ app.whenReady().then(async () => {
         }
     }
     
-    console.log('Ensuring Patchright browsers are installed...');
-    // First, ensure Patchright browsers are available
-    await ensurePatchrightBrowsers();
-    console.log('Patchright browser check completed');
+    console.log('Creating window...');
+    // Create window first
+    await createWindow();
+    console.log('Window creation completed');
     
     console.log('Loading libraries...');
-    // Load all IPC handlers first
+    // Then load IPC handlers with the window available
     await loadLibraries();
     console.log('Libraries loaded successfully');
     
-    console.log('Creating window...');
-    // Then create and show window
-    await createWindow();
-    console.log('Window creation completed');
+    console.log('Ensuring Patchright browsers are installed...');
+    // Finally, ensure Patchright browsers are available
+    await ensurePatchrightBrowsers();
+    console.log('Patchright browser check completed');
 });
 
 app.on('window-all-closed', function () {
