@@ -475,6 +475,9 @@ async function startAuthFlow() {
         }, 300000);
 
         try {
+            // Set bundled Chromium path for auth to work without Node/npx
+            process.env.PLAYWRIGHT_BROWSERS_PATH = path.join(process.resourcesPath || __dirname, '.local-browsers');
+            
             // Check if Patchright Chromium exists and install synchronously if needed
             log.info('Checking for Patchright Chromium installation...');
             

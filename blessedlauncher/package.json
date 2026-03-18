@@ -75,6 +75,13 @@
         "filter": [
           "**/*"
         ]
+      },
+      {
+        "from": "node_modules/patchright/.local-chromium",
+        "to": ".local-browsers",
+        "filter": [
+          "**/*"
+        ]
       }
     ],
     "publish": {

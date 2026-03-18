@@ -23,6 +23,7 @@ contextBridge.exposeInMainWorld('electron', {
     hideLoadingModal: () => ipcRenderer.invoke('hide-loading-modal'),
     installBrowsersWithFeedback: () => ipcRenderer.invoke('install-browsers-with-feedback'),
     checkPatchrightBrowsers: () => ipcRenderer.invoke('check-patchright-browsers'),
+    getAppVersion: () => ipcRenderer.invoke('get-app-version'),
     ipcRenderer: {
         send: (channel, data) => ipcRenderer.send(channel, data),
         receive: (channel, func) =>

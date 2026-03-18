@@ -333,8 +333,19 @@ async function checkForUpdates() {
 }
 
 // Initialize
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     console.log('DOMContentLoaded fired');
+    
+    // Set dynamic version
+    try {
+        const ver = await window.electron.getAppVersion();
+        const versionElement = document.querySelector('.version-info');
+        if (versionElement) {
+            versionElement.textContent = `Blessed Scripts Launcher v${ver}`;
+        }
+    } catch (error) {
+        console.error('Failed to get app version:', error);
+    }
     
     // Wait for IPC handlers to be ready before loading accounts
     setTimeout(() => {

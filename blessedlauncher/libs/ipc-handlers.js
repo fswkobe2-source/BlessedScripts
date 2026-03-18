@@ -322,5 +322,8 @@ module.exports = async function (deps) {
         }
     });
 
+    // Get app version
+    ipcMain.handle('get-app-version', () => app.getVersion());
+
     log.info('IPC handlers loaded successfully');
 };
