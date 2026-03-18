@@ -403,7 +403,7 @@ async function createWindow() {
         }
         
         function addToClient(scriptId) {
-            alert(`Adding script ${scriptId} to client...\n\nThis will download and install the script to C:\\Users\\${process.env.USERNAME || 'yourname'}\\.blessedscripts\\scripts\\`);
+            alert(`Adding script ${scriptId} to client...\n\nThis will download and install the script to ${path.join(process.env.HOME || process.env.USERPROFILE, '.blessedscripts', 'scripts')}`);
         }
         
         function buyScript(downloadUrl) {

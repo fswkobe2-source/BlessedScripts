@@ -953,7 +953,7 @@
                     <h3>User Scripts</h3>
                     <div class="scripts-info">
                         <p>Drop .jar or .class files in:</p>
-                        <code>C:\Users\andre\.blessedscripts\scripts</code>
+                        <code id="scripts-path">${path.join(process.env.HOME || process.env.USERPROFILE, '.blessedscripts', 'scripts')}</code>
                     </div>
                     
                     <div class="scripts-browser" id="scripts-list">

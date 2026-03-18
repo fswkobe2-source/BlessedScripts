@@ -1,3 +1,8 @@
+const path = require('path');
+const fs = require('fs');
+const log = require('electron-log');
+const { getJavaExecutablePath, ensureJavaInstallation } = require('./java-installer');
+
 module.exports = async function (deps) {
     const { ipcMain, fs, path, blessedScriptsDir, log } = deps;
     const { spawn } = require('child_process');
@@ -13,6 +18,11 @@ module.exports = async function (deps) {
 
     ipcMain.handle('open-client', async (event, account, clientPath, ramPreference) => {
         try {
+            // Ensure Java is installed before proceeding
+            const javaReady = await ensureJavaInstallation();
+            if (!javaReady) {
+                return { error: 'Failed to install required Java runtime. Please install Java 21 or higher manually.' };
+            }
             if (!fs.existsSync(clientPath)) {
                 return { error: `Client not found at: ${clientPath}` };
             }
@@ -82,11 +92,13 @@ module.exports = async function (deps) {
             // No need to pass --sessionfile since we're using the default location
             const commandArgs = [...jvmArgs, '-jar', clientPath];
 
-            const fullCommand = `java ${commandArgs.join(' ')}`;
+            // Get the appropriate Java executable path
+            const javaExecutable = getJavaExecutablePath();
+            const fullCommand = `${javaExecutable} ${commandArgs.join(' ')}`;
             log.info(`Executing: ${fullCommand}`);
 
             // Launch the client with environment variables for Jagex authentication
-            const javaProcess = spawn('java', commandArgs, {
+            const javaProcess = spawn(javaExecutable, commandArgs, {
                 detached: true,
                 stdio: ['ignore', 'pipe', 'pipe'], // Capture stdout and stderr for logging
                 cwd: path.dirname(clientPath),
